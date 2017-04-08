@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "469426670611",
+    "firebase_url": "https://cvlignereux.firebaseio.com",
+    "project_id": "cvlignereux",
+    "storage_bucket": "cvlignereux.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469426670611:android:5af4a61b3075e552",
+        "android_client_info": {
+          "package_name": "com.example.frup69513.cv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "469426670611-siv9on5pmm0p1vn23p7o2r3tsmt4pfho.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.frup69513.cv",
+            "certificate_hash": "4E746CAB7C34C827915171DD9DFA28557977A3CB"
+          }
+        },
+        {
+          "client_id": "469426670611-j7p083fda8clq6k7f5ieuujjap6jrftg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSfg4hjyx0Xb1l_INzxL3Dss85iDN_i-k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "469426670611-j7p083fda8clq6k7f5ieuujjap6jrftg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

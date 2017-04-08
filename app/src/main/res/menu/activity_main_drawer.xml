@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/profil"
+        android:icon="@drawable/ic_account_circle"
+        android:title="Profil" />
+
+    <item android:title="Etudes">
+
+        <menu>
+            <item
+                android:id="@+id/nav_formation"
+                android:icon="@drawable/ic_school"
+                android:title="Formation" />
+            <item
+                android:id="@+id/nav_studie_project"
+                android:icon="@drawable/ic_developer_board"
+                android:title="Projet" />
+        </menu>
+
+    </item>
+
+    <item android:title="Expérience">
+
+        <menu>
+            <item
+                android:id="@+id/nav_vounteer_experience"
+                android:icon="@drawable/ic_public"
+                android:title="Expérience bénévole" />
+
+            <item
+            android:id="@+id/nav_professional_experience"
+            android:icon="@drawable/ic_business_center"
+            android:title="Expérience professionelle" />
+
+            <item
+                android:id="@+id/nav_skill"
+                android:icon="@drawable/ic_pie_chart"
+                android:title="Compétences" />
+        </menu>
+
+    </item>
+
+    <item android:title="Autre">
+        <menu>
+            <item
+                android:id="@+id/nav_hobbie"
+                android:icon="@drawable/ic_golf_course"
+                android:title="Centres d'intérêt" />
+
+            <item
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_message"
+                android:title="Contact" />
+
+            <item
+                android:id="@+id/nav_info"
+                android:icon="@drawable/ic_info"
+                android:title="A propos" />
+        </menu>
+    </item>
+
+</menu>
