@@ -12,12 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.frup69513.cv.R;
 
+import com.example.frup69513.cv.R;
 import com.example.frup69513.cv.model.Skill;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -29,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SkillFragment extends Fragment {
@@ -40,6 +40,8 @@ public class SkillFragment extends Fragment {
     private PieChart mChart;
     private Typeface tf;
 
+    private List<PieEntry> mPieEntries;
+
     public static Fragment newInstance() {
         return new SkillFragment();
     }
@@ -48,6 +50,8 @@ public class SkillFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mPieEntries = new ArrayList<>();
     }
 
     @Override
@@ -79,6 +83,31 @@ public class SkillFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mDatabase.child("competence").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Log.e("skill", dataSnapshot.toString());
+                for(DataSnapshot d : dataSnapshot.getChildren()){
+                    Skill skill = d.getValue(Skill.class);
+                    Log.e("skill", skill.toString());
+                    mPieEntries.add(new PieEntry(skill.getValue(), skill.getTitle()));
+                }
+
+                generatePieData();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private SpannableString generateCenterText() {
         SpannableString s = new SpannableString("Compétence\nDéveloppement");
         s.setSpan(new RelativeSizeSpan(2f), 0, 8, 0);
@@ -92,36 +121,16 @@ public class SkillFragment extends Fragment {
      */
     protected void generatePieData() {
         Log.e(TAG, "generatePieData()");
-        mDatabase.child("competence").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<PieEntry> entries1 = new ArrayList<PieEntry>();
 
-                Log.e("skill", dataSnapshot.toString());
-                for(DataSnapshot d : dataSnapshot.getChildren()){
-                    Skill skill = d.getValue(Skill.class);
-                    Log.e("skill", skill.toString());
-                    entries1.add(new PieEntry(skill.getValue(), skill.getTitle()));
-                }
+        PieDataSet ds1 = new PieDataSet(mPieEntries, "Compétence Développement");
+        ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        ds1.setSliceSpace(2f);
+        ds1.setValueTextColor(Color.WHITE);
+        ds1.setValueTextSize(12f);
 
-                PieDataSet ds1 = new PieDataSet(entries1, "Compétence Développement");
-                ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
-                ds1.setSliceSpace(2f);
-                ds1.setValueTextColor(Color.WHITE);
-                ds1.setValueTextSize(12f);
+        PieData d = new PieData(ds1);
+        d.setValueTypeface(tf);
 
-                PieData d = new PieData(ds1);
-                d.setValueTypeface(tf);
-
-                mChart.setData(d);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+        mChart.setData(d);
     }
 }

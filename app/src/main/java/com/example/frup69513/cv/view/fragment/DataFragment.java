@@ -13,13 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.frup69513.cv.R;
 import com.example.frup69513.cv.model.Data;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -106,7 +106,8 @@ public class DataFragment extends Fragment {
                 viewHolder.subtitle.setText(model.getSubtitle());
                 viewHolder.description.setText(model.getDescription());
 
-                Picasso.with(mContext).load(model.getImageUrl()).into(viewHolder.circleImageView);
+                Glide.with(mContext).load(model.getImageUrl()).skipMemoryCache( true ).into(viewHolder.circleImageView);
+                //Picasso.with(mContext).load(model.getImageUrl()).into(viewHolder.circleImageView);
             }
         };
 
