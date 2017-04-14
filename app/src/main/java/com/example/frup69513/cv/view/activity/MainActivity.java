@@ -1,6 +1,5 @@
 package com.example.frup69513.cv.view.activity;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -20,8 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.frup69513.cv.R;
 import com.example.frup69513.cv.model.Profil;
 import com.example.frup69513.cv.view.fragment.DataFragment;
-import com.example.frup69513.cv.view.fragment.HomeFragment;
-import com.example.frup69513.cv.view.fragment.ProfilActivity;
+import com.example.frup69513.cv.view.fragment.ProfilFragment;
 import com.example.frup69513.cv.view.fragment.SkillFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DataFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DataFragment.OnFragmentInteractionListener {
 
     private final static String TAG = "MainActivity";
     private DatabaseReference mReference;
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_main, new HomeFragment())
+                .replace(R.id.content_main, new ProfilFragment())
                 .commit();
 
         View header = navigationView.getHeaderView(0);
@@ -117,8 +115,7 @@ public class MainActivity extends AppCompatActivity
 
         switch (id){
             case R.id.profil:
-                startActivity(new Intent(this, ProfilActivity.class));
-                fragment = null;
+                fragment = new ProfilFragment();
                 break;
 
             case R.id.nav_formation :
