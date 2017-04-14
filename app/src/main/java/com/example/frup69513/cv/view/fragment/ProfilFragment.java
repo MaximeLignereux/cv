@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.frup69513.cv.R;
@@ -35,6 +36,7 @@ public class ProfilFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         final CircleImageView circleImageView = (CircleImageView) v.findViewById(R.id.civ_image_profil);
+        final ImageView imageViewTop = (ImageView) v.findViewById(R.id.image_view_top);
 
         mContext = getContext().getApplicationContext();
         mDatabase.child("profil").addValueEventListener(new ValueEventListener() {
@@ -45,6 +47,8 @@ public class ProfilFragment extends Fragment {
                 Profil profil = dataSnapshot.getValue(Profil.class);
 
                 Glide.with(mContext).load(profil.getPhotoUrl()).skipMemoryCache(true).into(circleImageView);
+                Glide.with(mContext).load(profil.getBackgroundUrl()).skipMemoryCache(true).centerCrop().into(imageViewTop);
+
             }
 
             @Override

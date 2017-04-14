@@ -54,6 +54,7 @@ public class App extends Application {
     }
 
     public List getPieEntries(){
+        Log.d(TAG, "getPieEntries()");
         return mPieEntries;
     }
 }
