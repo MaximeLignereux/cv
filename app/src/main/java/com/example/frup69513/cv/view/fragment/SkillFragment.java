@@ -14,20 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.frup69513.cv.R;
-import com.example.frup69513.cv.model.Skill;
+import com.example.frup69513.cv.view.App;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -51,7 +47,9 @@ public class SkillFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mPieEntries = new ArrayList<>();
+        mPieEntries = ((App)getContext().getApplicationContext()).getPieEntries();
+
+
     }
 
     @Override
@@ -87,25 +85,6 @@ public class SkillFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mDatabase.child("competence").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                Log.e("skill", dataSnapshot.toString());
-                for(DataSnapshot d : dataSnapshot.getChildren()){
-                    Skill skill = d.getValue(Skill.class);
-                    Log.e("skill", skill.toString());
-                    mPieEntries.add(new PieEntry(skill.getValue(), skill.getTitle()));
-                }
-
-                generatePieData();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     private SpannableString generateCenterText() {
@@ -120,7 +99,7 @@ public class SkillFragment extends Fragment {
      * @return
      */
     protected void generatePieData() {
-        Log.e(TAG, "generatePieData()");
+        Log.d(TAG, "generatePieData()");
 
         PieDataSet ds1 = new PieDataSet(mPieEntries, "Compétence Développement");
         ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
