@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,13 +43,14 @@ public class DataFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static DataFragment newInstance(String reference){
+    public static DataFragment newInstance(String reference, String title){
         Log.d(TAG,"newInstance():reference: " + reference);
 
 
         DataFragment fragment = new DataFragment();
         Bundle args = new Bundle();
         args.putString("REFERENCE", reference);
+        args.putString("TITLE", title);
         fragment.setArguments(args);
 
         return fragment;
@@ -56,6 +58,10 @@ public class DataFragment extends Fragment {
 
     public String getReference(){
         return getArguments().getString("REFERENCE");
+    }
+
+    public String getTitle(){
+        return getArguments().getString("TITLE");
     }
 
     @Override
@@ -71,8 +77,11 @@ public class DataFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView()");
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_data_list, container, false);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getTitle());
 
         mContext = view.getContext();
 

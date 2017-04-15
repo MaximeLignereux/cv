@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_main, new ProfilFragment())
+                .replace(R.id.content_main, ProfilFragment.newInstance("Profil"))
                 .commit();
 
         View header = navigationView.getHeaderView(0);
@@ -115,39 +115,39 @@ public class MainActivity extends AppCompatActivity
 
         switch (id){
             case R.id.profil:
-                fragment = new ProfilFragment();
+                fragment = ProfilFragment.newInstance("Profil");
                 break;
 
             case R.id.nav_formation :
-                fragment = DataFragment.newInstance("formation");
+                fragment = DataFragment.newInstance("formation", "Formation");
                 break;
 
             case R.id.nav_studie_project:
-                fragment = DataFragment.newInstance("projet_etude");
+                fragment = DataFragment.newInstance("projet_etude", "Projet");
                 break;
 
             case R.id.nav_vounteer_experience:
-                fragment = DataFragment.newInstance("benevolat");
+                fragment = DataFragment.newInstance("benevolat", "Expérience bénévole");
                 break;
 
             case R.id.nav_professional_experience:
-                fragment = DataFragment.newInstance("professionnelle");
+                fragment = DataFragment.newInstance("professionnelle", "Expérience professionelle");
                 break;
 
             case R.id.nav_skill:
-                fragment = new SkillFragment();
+                fragment = SkillFragment.newInstance("Compétences");
                 break;
 
             case R.id.nav_hobbie:
-                fragment = DataFragment.newInstance("hobbie");
+                fragment = DataFragment.newInstance("hobbie", "Centres d'intérêt");
                 break;
 
             case R.id.nav_contact:
-                fragment = DataFragment.newInstance("contact");
+                fragment = DataFragment.newInstance("contact", "Contact");
                 break;
 
             case R.id.nav_info:
-                fragment = DataFragment.newInstance("info");
+                fragment = DataFragment.newInstance("info", "A propos");
                 break;
         }
 

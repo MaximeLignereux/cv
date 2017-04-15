@@ -1,29 +1,26 @@
 package com.example.frup69513.cv.view.fragment;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 
+import com.example.frup69513.cv.CustomExpandableListAdapter;
 import com.example.frup69513.cv.R;
-import com.example.frup69513.cv.view.App;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.firebase.database.DatabaseReference;
+import com.example.frup69513.cv.model.Skill;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -31,85 +28,110 @@ public class SkillFragment extends Fragment {
 
     private final static String TAG = "SkillFragment";
 
-    private DatabaseReference mDatabase;
+    ExpandableListView expandableListView;
+    ExpandableListAdapter expandableListAdapter;
+    List<String> expandableListTitle;
+    HashMap<String, List<Skill>> expandableListDetail;
 
-    private PieChart mChart;
-    private Typeface tf;
+    public SkillFragment(){}
 
-    private List<PieEntry> mPieEntries;
+    public static Fragment newInstance(String title) {
+        Log.d(TAG, "newInstance()");
 
-    public static Fragment newInstance() {
-        return new SkillFragment();
+        SkillFragment fragment = new SkillFragment();
+        Bundle args = new Bundle();
+        args.putString("TITLE", title);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    public String getTitle(){
+        Log.d(TAG, "getTitle()");
+        return getArguments().getString("TITLE");
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        mPieEntries = ((App)getContext().getApplicationContext()).getPieEntries();
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_skill, container, false);
+        Log.d(TAG, "onCreateView()");
 
-        mChart = (PieChart) v.findViewById(R.id.pieChart);
-        mChart.getDescription().setEnabled(false);
+        View v = inflater.inflate(R.layout.fragment_skill_list, container, false);
 
-        tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getTitle());
 
-        mChart.setCenterTextTypeface(tf);
-        mChart.setCenterText(generateCenterText());
-        mChart.setCenterTextSize(10f);
-        mChart.setCenterTextTypeface(tf);
+        expandableListView = (ExpandableListView) v.findViewById(R.id.expanded_list);
+        expandableListTitle = new ArrayList<>();
+        expandableListDetail = new HashMap<>();
 
-        // radius of the center hole in percent of maximum radius
-        mChart.setHoleRadius(45f);
-        mChart.setTransparentCircleRadius(50f);
 
-        Legend l = mChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
+        FirebaseDatabase.getInstance().getReference().child("competence").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.d(TAG, "onCreateView():onChildAdded()");
 
-        generatePieData();
+                List<Skill> skills = new ArrayList<Skill>();
+                Log.d(TAG, "GROUP: " + dataSnapshot.getKey());
+                expandableListTitle.add(dataSnapshot.getKey());
+
+                for(DataSnapshot d : dataSnapshot.getChildren()){
+                    Skill skill = d.getValue(Skill.class);
+
+                    Log.d(TAG, "Skill: " + skill.toString());
+                    skills.add(skill);
+                }
+
+                expandableListDetail.put(dataSnapshot.getKey(), skills);
+
+                expandableListAdapter = new CustomExpandableListAdapter(getContext().getApplicationContext(), expandableListTitle, expandableListDetail);
+                expandableListView.setAdapter(expandableListAdapter);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d(TAG, "onCreateView():onChildChanged()");
+
+                List<Skill> skills = new ArrayList<Skill>();
+
+                Log.d(TAG, "GROUP: " + dataSnapshot.getKey());
+                expandableListTitle.add(dataSnapshot.getKey());
+
+                for(DataSnapshot d : dataSnapshot.getChildren()){
+                    Skill skill = d.getValue(Skill.class);
+
+                    Log.d(TAG, "Skill: " + skill.toString());
+                    skills.add(skill);
+                }
+
+                expandableListDetail.put(dataSnapshot.getKey(), skills);
+
+                expandableListAdapter = new CustomExpandableListAdapter(getContext().getApplicationContext(), expandableListTitle, expandableListDetail);
+                expandableListView.setAdapter(expandableListAdapter);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         return v;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-    }
 
-    private SpannableString generateCenterText() {
-        SpannableString s = new SpannableString("Compétence\nDéveloppement");
-        s.setSpan(new RelativeSizeSpan(2f), 0, 8, 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), 8, s.length(), 0);
-        return s;
-    }
-
-    /**
-     * generates less data (1 DataSet, 4 values)
-     * @return
-     */
-    protected void generatePieData() {
-        Log.d(TAG, "generatePieData()");
-
-        PieDataSet ds1 = new PieDataSet(mPieEntries, "Compétence Développement");
-        ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
-        ds1.setSliceSpace(2f);
-        ds1.setValueTextColor(Color.WHITE);
-        ds1.setValueTextSize(12f);
-
-        PieData d = new PieData(ds1);
-        d.setValueTypeface(tf);
-
-        mChart.setData(d);
-    }
 }

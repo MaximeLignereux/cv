@@ -4,11 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.frup69513.cv.R;
@@ -28,17 +30,38 @@ public class ProfilFragment extends Fragment {
     private DatabaseReference mDatabase;
     private Context mContext;
 
+    public ProfilFragment(){}
+
+
+    public static Fragment newInstance(String title) {
+
+        ProfilFragment fragment = new ProfilFragment();
+        Bundle args = new Bundle();
+        args.putString("TITLE", title);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    public String getTitle(){
+        return getArguments().getString("TITLE");
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profil,container, false);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
         final CircleImageView circleImageView = (CircleImageView) v.findViewById(R.id.civ_image_profil);
         final ImageView imageViewTop = (ImageView) v.findViewById(R.id.image_view_top);
+        final TextView profilNameTextView = (TextView) v.findViewById(R.id.profil_name);
+        final TextView profilJobTextView = (TextView) v.findViewById(R.id.profil_job);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mContext = getContext().getApplicationContext();
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getTitle());
+
         mDatabase.child("profil").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -48,6 +71,8 @@ public class ProfilFragment extends Fragment {
 
                 Glide.with(mContext).load(profil.getPhotoUrl()).skipMemoryCache(true).into(circleImageView);
                 Glide.with(mContext).load(profil.getBackgroundUrl()).skipMemoryCache(true).centerCrop().into(imageViewTop);
+                profilJobTextView.setText(profil.getJob());
+                profilNameTextView.setText(profil.getName());
 
             }
 
