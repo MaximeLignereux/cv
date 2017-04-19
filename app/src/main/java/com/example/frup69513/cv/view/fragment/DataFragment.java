@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,8 +22,6 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class DataFragment extends Fragment {
@@ -43,14 +42,15 @@ public class DataFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static DataFragment newInstance(String reference, String title){
+    public static DataFragment newInstance(String reference, String title, String subtitle, String description){
         Log.d(TAG,"newInstance():reference: " + reference);
-
 
         DataFragment fragment = new DataFragment();
         Bundle args = new Bundle();
         args.putString("REFERENCE", reference);
         args.putString("TITLE", title);
+        args.putString("SUBTITLE", subtitle);
+        args.putString("DESCRIPTION", description);
         fragment.setArguments(args);
 
         return fragment;
@@ -63,6 +63,10 @@ public class DataFragment extends Fragment {
     public String getTitle(){
         return getArguments().getString("TITLE");
     }
+
+    public String getSubtitle() { return getArguments().getString("SUBTITLE");}
+
+    public String getDescription() { return getArguments().getString("DESCRIPTION"); }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,11 +116,12 @@ public class DataFragment extends Fragment {
 
                 viewHolder.title.setText(model.getTitle());
                 viewHolder.date.setText(model.getDate());
-                viewHolder.subtitle.setText(model.getSubtitle());
-                viewHolder.description.setText(model.getDescription());
+                viewHolder.subtitle.setText(getSubtitle());
+                viewHolder.subtitle_content.setText(model.getSubtitle());
+                viewHolder.description.setText(getDescription());
+                viewHolder.description_content.setText(model.getDescription());
 
-                Glide.with(mContext).load(model.getImageUrl()).skipMemoryCache( true ).into(viewHolder.circleImageView);
-                //Picasso.with(mContext).load(model.getImageUrl()).into(viewHolder.circleImageView);
+                Glide.with(mContext).load(model.getImageUrl()).skipMemoryCache( true ).into(viewHolder.imageView);
             }
         };
 
@@ -168,16 +173,20 @@ public class DataFragment extends Fragment {
         private TextView title;
         private TextView date;
         private TextView subtitle;
+        private TextView subtitle_content;
         private TextView description;
-        private CircleImageView circleImageView;
+        private TextView description_content;
+        private ImageView imageView;
 
         public DataViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tv_title);
             date = (TextView) itemView.findViewById(R.id.tv_date);
             subtitle = (TextView) itemView.findViewById(R.id.tv_subtitle);
+            subtitle_content = (TextView) itemView.findViewById(R.id.tv_subtitle_content);
             description = (TextView) itemView.findViewById(R.id.tv_description);
-            circleImageView = (CircleImageView) itemView.findViewById(R.id.civ_image);
+            description_content = (TextView)itemView.findViewById(R.id.tv_description_content);
+            imageView = (ImageView) itemView.findViewById(R.id.iv_image);
         }
     }
 }

@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/civ_image"
+            <ImageView
+                android:id="@+id/iv_image"
                 android:layout_marginTop="10dp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -54,19 +54,51 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_subtitle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Subtitle"
-            android:layout_marginBottom="8dp"/>
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
 
-        <TextView
-            android:id="@+id/tv_description"
+            <TextView
+                android:id="@+id/tv_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif"
+                android:text="Subtitle"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/tv_subtitle_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Description"
-            android:layout_marginBottom="8dp"/>
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Description"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/tv_description_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp" />
+        </LinearLayout>
+
+
+
 
 
     </LinearLayout>

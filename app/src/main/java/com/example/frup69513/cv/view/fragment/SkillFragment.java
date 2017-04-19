@@ -28,10 +28,10 @@ public class SkillFragment extends Fragment {
 
     private final static String TAG = "SkillFragment";
 
-    ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-    List<String> expandableListTitle;
-    HashMap<String, List<Skill>> expandableListDetail;
+    ExpandableListView mExpandableListView;
+    ExpandableListAdapter mExpandableListAdapter;
+    List<String> mExpandableListTitle;
+    HashMap<String, List<Skill>> mExpandableListDetail;
 
     public SkillFragment(){}
 
@@ -64,9 +64,9 @@ public class SkillFragment extends Fragment {
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getTitle());
 
-        expandableListView = (ExpandableListView) v.findViewById(R.id.expanded_list);
-        expandableListTitle = new ArrayList<>();
-        expandableListDetail = new HashMap<>();
+        mExpandableListView = (ExpandableListView) v.findViewById(R.id.expanded_list);
+        mExpandableListTitle = new ArrayList<>();
+        mExpandableListDetail = new HashMap<>();
 
 
         FirebaseDatabase.getInstance().getReference().child("competence").addChildEventListener(new ChildEventListener() {
@@ -76,7 +76,7 @@ public class SkillFragment extends Fragment {
 
                 List<Skill> skills = new ArrayList<Skill>();
                 Log.d(TAG, "GROUP: " + dataSnapshot.getKey());
-                expandableListTitle.add(dataSnapshot.getKey());
+                mExpandableListTitle.add(dataSnapshot.getKey());
 
                 for(DataSnapshot d : dataSnapshot.getChildren()){
                     Skill skill = d.getValue(Skill.class);
@@ -85,10 +85,10 @@ public class SkillFragment extends Fragment {
                     skills.add(skill);
                 }
 
-                expandableListDetail.put(dataSnapshot.getKey(), skills);
+                mExpandableListDetail.put(dataSnapshot.getKey(), skills);
 
-                expandableListAdapter = new CustomExpandableListAdapter(getContext().getApplicationContext(), expandableListTitle, expandableListDetail);
-                expandableListView.setAdapter(expandableListAdapter);
+                mExpandableListAdapter = new CustomExpandableListAdapter(getContext().getApplicationContext(), mExpandableListTitle, mExpandableListDetail);
+                mExpandableListView.setAdapter(mExpandableListAdapter);
             }
 
             @Override
@@ -98,7 +98,7 @@ public class SkillFragment extends Fragment {
                 List<Skill> skills = new ArrayList<Skill>();
 
                 Log.d(TAG, "GROUP: " + dataSnapshot.getKey());
-                expandableListTitle.add(dataSnapshot.getKey());
+                mExpandableListTitle.add(dataSnapshot.getKey());
 
                 for(DataSnapshot d : dataSnapshot.getChildren()){
                     Skill skill = d.getValue(Skill.class);
@@ -107,10 +107,10 @@ public class SkillFragment extends Fragment {
                     skills.add(skill);
                 }
 
-                expandableListDetail.put(dataSnapshot.getKey(), skills);
+                mExpandableListDetail.put(dataSnapshot.getKey(), skills);
 
-                expandableListAdapter = new CustomExpandableListAdapter(getContext().getApplicationContext(), expandableListTitle, expandableListDetail);
-                expandableListView.setAdapter(expandableListAdapter);
+                mExpandableListAdapter = new CustomExpandableListAdapter(getContext().getApplicationContext(), mExpandableListTitle, mExpandableListDetail);
+                mExpandableListView.setAdapter(mExpandableListAdapter);
             }
 
             @Override

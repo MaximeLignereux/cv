@@ -119,19 +119,19 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_formation :
-                fragment = DataFragment.newInstance("formation", "Formation");
+                fragment = DataFragment.newInstance("formation", "Formation", "Option : ", "Technologies étudiées : ");
                 break;
 
             case R.id.nav_studie_project:
-                fragment = DataFragment.newInstance("projet_etude", "Projet");
+                fragment = DataFragment.newInstance("projet_etude", "Projet", "Contexte : ", "Description : ");
                 break;
 
             case R.id.nav_vounteer_experience:
-                fragment = DataFragment.newInstance("benevolat", "Expérience bénévole");
+                fragment = DataFragment.newInstance("benevolat", "Expérience bénévole", "Rôle : ", "Description : ");
                 break;
 
             case R.id.nav_professional_experience:
-                fragment = DataFragment.newInstance("professionnelle", "Expérience professionelle");
+                fragment = DataFragment.newInstance("professionnelle", "Expérience professionelle", "Poste : ", "Description : ");
                 break;
 
             case R.id.nav_skill:
@@ -139,15 +139,15 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_hobbie:
-                fragment = DataFragment.newInstance("hobbie", "Centres d'intérêt");
+                fragment = DataFragment.newInstance("hobbie", "Centres d'intérêt", "", "");
                 break;
 
             case R.id.nav_contact:
-                fragment = DataFragment.newInstance("contact", "Contact");
+                fragment = DataFragment.newInstance("contact", "Contact", "", "");
                 break;
 
             case R.id.nav_info:
-                fragment = DataFragment.newInstance("info", "A propos");
+                fragment = DataFragment.newInstance("info", "A propos", "", "");
                 break;
         }
 
