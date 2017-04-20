@@ -35,21 +35,29 @@ public class SkillFragment extends Fragment {
 
     public SkillFragment(){}
 
-    public static Fragment newInstance(String title) {
+    public static Fragment newInstance(String reference, String title) {
         Log.d(TAG, "newInstance()");
 
         SkillFragment fragment = new SkillFragment();
         Bundle args = new Bundle();
         args.putString("TITLE", title);
+        args.putString("REFERENCE", reference);
         fragment.setArguments(args);
 
         return fragment;
     }
 
+    public String getReference(){
+        return getArguments().getString("REFERENCE");
+    }
+
     public String getTitle(){
-        Log.d(TAG, "getTitle()");
         return getArguments().getString("TITLE");
     }
+
+    public String getSubtitle() { return getArguments().getString("SUBTITLE");}
+
+    public String getDescription() { return getArguments().getString("DESCRIPTION"); }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +77,7 @@ public class SkillFragment extends Fragment {
         mExpandableListDetail = new HashMap<>();
 
 
-        FirebaseDatabase.getInstance().getReference().child("competence").addChildEventListener(new ChildEventListener() {
+        FirebaseDatabase.getInstance().getReference().child(getReference()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Log.d(TAG, "onCreateView():onChildAdded()");
