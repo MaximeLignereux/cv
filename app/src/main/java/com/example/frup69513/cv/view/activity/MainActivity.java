@@ -1,6 +1,5 @@
 package com.example.frup69513.cv.view.activity;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.frup69513.cv.R;
 import com.example.frup69513.cv.model.Profil;
+import com.example.frup69513.cv.view.fragment.ContactFragment;
 import com.example.frup69513.cv.view.fragment.DataFragment;
 import com.example.frup69513.cv.view.fragment.ProfilFragment;
 import com.example.frup69513.cv.view.fragment.SkillFragment;
@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DataFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private final static String TAG = "MainActivity";
     private DatabaseReference mReference;
@@ -69,12 +69,13 @@ public class MainActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_main, ProfilFragment.newInstance("Profil"))
+                .replace(R.id.content_main, ProfilFragment.newInstance("profil","Profil"))
                 .commit();
 
         View header = navigationView.getHeaderView(0);
 
         final TextView nameTextView = (TextView) header.findViewById(R.id.tv_text_header);
+        final TextView mailTextView = (TextView) header.findViewById(R.id.tv_mail_header);
         final CircleImageView circleImageView = (CircleImageView) header.findViewById(R.id.civ_image_header);
 
         mReference.child("profil").addValueEventListener(new ValueEventListener() {
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity
                 Profil profil = dataSnapshot.getValue(Profil.class);
 
                 nameTextView.setText(profil.getName());
+                mailTextView.setText(profil.getMail());
                 Glide.with(getApplicationContext()).load(profil.getPhotoUrl()).skipMemoryCache(true).into(circleImageView);
             }
 
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity
 
         switch (id){
             case R.id.profil:
-                fragment = ProfilFragment.newInstance("Profil");
+                fragment = ProfilFragment.newInstance("profil", "Profil");
                 break;
 
             case R.id.nav_formation :
@@ -135,7 +137,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_skill:
-                fragment = SkillFragment.newInstance("Compétences");
+                fragment = SkillFragment.newInstance("competence", "Compétences");
                 break;
 
             case R.id.nav_hobbie:
@@ -143,7 +145,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_contact:
-                fragment = DataFragment.newInstance("contact", "Contact", "", "");
+                fragment = ContactFragment.newInstance("contact", "Contact", "", "");
                 break;
 
             case R.id.nav_info:
@@ -165,8 +167,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }
