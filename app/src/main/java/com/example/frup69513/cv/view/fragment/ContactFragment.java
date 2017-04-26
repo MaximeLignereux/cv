@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.frup69513.cv.R;
 import com.example.frup69513.cv.model.Contact;
@@ -143,7 +144,7 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
                                         requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION);
                                     }
                                 });
-                                builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                                builder.setNegativeButton("AnnuCler", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.dismiss();
                                     }
@@ -165,6 +166,21 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
                         }
 
 
+                    }
+                });
+
+                mFab2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(Intent.ACTION_SEND);
+                        i.setType("message/rfc822");
+                        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{contact.getEmail()});
+
+                        try {
+                            startActivity(Intent.createChooser(i, "Send mail..."));
+                        } catch (android.content.ActivityNotFoundException ex) {
+                            Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
