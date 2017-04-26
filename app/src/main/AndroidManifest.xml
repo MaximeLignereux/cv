@@ -3,6 +3,7 @@
     package="com.example.frup69513.cv">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:name=".view.App"
