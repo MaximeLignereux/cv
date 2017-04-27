@@ -54,7 +54,6 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
     }
 
     public static ContactFragment newInstance(String reference, String title, String subtitle, String description) {
-        Log.d(TAG,"newInstance():reference: " + reference);
 
         ContactFragment fragment = new ContactFragment();
         Bundle args = new Bundle();
@@ -130,7 +129,6 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
         mDatabase.child(getReference()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onCreateView():onDataChange():datasnaphot: " + dataSnapshot);
 
                 final Contact contact = dataSnapshot.getValue(Contact.class);
 
@@ -270,18 +268,12 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
                                            @NonNull  String permissions[], @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        Log.d(TAG, "onRequestPermissionsResult");
-
         switch (requestCode) {
 
             case CALL_PERMISSION: {
 
-                Log.d(TAG, "CALL_PERMISSION");
-
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    Log.d(TAG, "permissionResult");
 
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
                     callIntent.setData(Uri.parse("tel:" + callNumber));

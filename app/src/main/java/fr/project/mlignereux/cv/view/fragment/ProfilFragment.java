@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +69,6 @@ public class ProfilFragment extends Fragment {
         mDatabase.child(getReference()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onCreateView():onDataChange()");
 
                 Profil profil = dataSnapshot.getValue(Profil.class);
 
@@ -84,7 +82,6 @@ public class ProfilFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "onCreateView():onCancelled():error: "+ databaseError);
             }
         });
 

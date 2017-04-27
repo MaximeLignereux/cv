@@ -39,7 +39,6 @@ public class DataFragment extends Fragment {
     }
 
     public static DataFragment newInstance(String reference, String title, String subtitle, String description){
-        Log.d(TAG,"newInstance():reference: " + reference);
 
         DataFragment fragment = new DataFragment();
         Bundle args = new Bundle();
@@ -66,7 +65,6 @@ public class DataFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -76,7 +74,6 @@ public class DataFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView()");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(fr.project.mlignereux.cv.R.layout.fragment_data_list, container, false);
@@ -92,7 +89,7 @@ public class DataFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onActivityCreated()");
+
         super.onActivityCreated(savedInstanceState);
 
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
@@ -108,7 +105,6 @@ public class DataFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(DataViewHolder viewHolder, Data model, int position) {
-                Log.d(TAG, "onActivityCreated():populateViewHolder()");
 
                 viewHolder.title.setText(model.getTitle());
                 viewHolder.date.setText(model.getDate());
