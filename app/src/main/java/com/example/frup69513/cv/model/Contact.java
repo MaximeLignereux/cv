@@ -14,6 +14,11 @@ public class Contact {
     private String address;
     private String linkedin;
     private String viadeo;
+    private String bornDate;
+    private String state;
+    private String driversLicense;
+    private String linkedinIcon;
+    private String viadeoIcon;
 
     public String getAddress() {
         return address;
@@ -33,5 +38,25 @@ public class Contact {
 
     public String getViadeo() {
         return viadeo;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getDriversLicense() {
+        return driversLicense;
+    }
+
+    public String getBornDate() {
+        return bornDate;
+    }
+
+    public String getLinkedinIcon() {
+        return linkedinIcon;
+    }
+
+    public String getViadeoIcon() {
+        return viadeoIcon;
     }
 }

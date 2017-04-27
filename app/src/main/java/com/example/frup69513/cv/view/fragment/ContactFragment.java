@@ -20,9 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.frup69513.cv.R;
 import com.example.frup69513.cv.model.Contact;
 import com.google.firebase.database.DataSnapshot;
@@ -91,7 +93,7 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_contact, container, false);
+        final View v =  inflater.inflate(R.layout.fragment_contact, container, false);
 
         mFab = (FloatingActionButton) v.findViewById(R.id.fab);
         mFab1 = (FloatingActionButton) v.findViewById(R.id.fab1);
@@ -113,76 +115,47 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
             }
         });
 
+        final TextView stateTextView = (TextView)v.findViewById(R.id.tv_contact_state);
+        final TextView bornDateTextView = (TextView)v.findViewById(R.id.tv_contact_born_date);
+        final TextView mailTextView = (TextView)v.findViewById(R.id.tv_contact_mail);
+        final TextView phoneTextView = (TextView)v.findViewById(R.id.tv_contact_phone);
+        final TextView addressTextView = (TextView)v.findViewById(R.id.tv_contact_address);
+        final TextView driversLicenseTextView = (TextView)v.findViewById(R.id.tv_contact_drivers_license);
+        final TextView linkedinTextView = (TextView)v.findViewById(R.id.tv_contact_linkedin);
+        final TextView viadeoTextView = (TextView)v.findViewById(R.id.tv_contact_viadeo);
+        final ImageView viadeoImageView = (ImageView)v.findViewById(R.id.iv_contact_viadeo);
+        final ImageView linkedinImageView = (ImageView)v.findViewById(R.id.iv_contact_linkedin);
+
+
         mDatabase.child(getReference()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "onCreateView():onDataChange():datasnaphot: " + dataSnapshot);
 
                 final Contact contact = dataSnapshot.getValue(Contact.class);
+
+                stateTextView.setText(contact.getState());
+                bornDateTextView.setText(contact.getBornDate());
+                mailTextView.setText(contact.getEmail());
+                phoneTextView.setText(contact.getPhone());
+                addressTextView.setText(contact.getAddress());
+                driversLicenseTextView.setText(contact.getDriversLicense());
+                linkedinTextView.setText(contact.getLinkedin());
+
+                viadeoTextView.setText(contact.getViadeo());
+
+
+                Glide.with(mContext).load(contact.getLinkedinIcon()).skipMemoryCache( true ).into(linkedinImageView);
+                Glide.with(mContext).load(contact.getViadeoIcon()).skipMemoryCache( true ).into(viadeoImageView);
+
                 callNumber = contact.getPhone();
 
-                mFab1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                call(callNumber);
 
-                        if(ContextCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
-                            Log.d(TAG, "checkpermission");
-
-                            if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CALL_PHONE)){
-                                Log.d(TAG, "shouldRequest");
-
-                                // Show an explanation to the user *asynchronously* -- don't block
-                                // this thread waiting for the user's response! After the user
-                                // sees the explanation, try again to request the permission.
-
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                                builder.setMessage("Vous devez autoriser l'application à utiliser votre appareil pour téléphoner");
-
-                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION);
-                                    }
-                                });
-                                builder.setNegativeButton("AnnuCler", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.dismiss();
-                                    }
-                                });
-
-                                AlertDialog dialog = builder.create();
-
-                                dialog.show();
-
-                            }else{
-
-                                // No explanation needed, we can request the permission.
-                                requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION);
-                            }
-                        }else{
-                            Intent callIntent = new Intent(Intent.ACTION_CALL);
-                            callIntent.setData(Uri.parse("tel:" + callNumber));
-                            startActivity(callIntent);
-                        }
+                sendMail(contact.getEmail());
 
 
-                    }
-                });
 
-                mFab2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(Intent.ACTION_SEND);
-                        i.setType("message/rfc822");
-                        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{contact.getEmail()});
-
-                        try {
-                            startActivity(Intent.createChooser(i, "Send mail..."));
-                        } catch (android.content.ActivityNotFoundException ex) {
-                            Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
             }
 
             @Override
@@ -196,7 +169,76 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
         return v;
     }
 
-    public void animateFAB(){
+    private void call(final String number){
+        mFab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(ContextCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+                    Log.d(TAG, "checkpermission");
+
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CALL_PHONE)){
+                        Log.d(TAG, "shouldRequest");
+
+                        // Show an explanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                        builder.setMessage("Vous devez autoriser l'application à utiliser votre appareil pour téléphoner");
+
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION);
+                            }
+                        });
+                        builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+
+                        dialog.show();
+
+                    }else{
+
+                        // No explanation needed, we can request the permission.
+                        requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION);
+                    }
+                }else{
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + number));
+                    startActivity(callIntent);
+                }
+
+
+            }
+        });
+    }
+
+    private void sendMail(final String email){
+
+        mFab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{email});
+
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void animateFAB(){
 
         if(isFabOpen){
 

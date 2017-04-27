@@ -147,10 +147,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_contact:
                 fragment = ContactFragment.newInstance("contact", "Contact", "", "");
                 break;
-
-            case R.id.nav_info:
-                fragment = DataFragment.newInstance("info", "A propos", "", "");
-                break;
         }
 
         if(fragment != null){
