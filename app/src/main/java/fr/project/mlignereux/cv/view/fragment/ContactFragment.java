@@ -31,7 +31,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import fr.project.mlignereux.cv.R;
 import fr.project.mlignereux.cv.model.Contact;
 
 public class ContactFragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -59,10 +58,10 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
 
         ContactFragment fragment = new ContactFragment();
         Bundle args = new Bundle();
-        args.putString(String.valueOf(R.string.reference_bundle), reference);
-        args.putString(String.valueOf(R.string.title_bundle), title);
-        args.putString(String.valueOf(R.string.subtitle_bundle), subtitle);
-        args.putString(String.valueOf(R.string.description_bundle), description);
+        args.putString("REFERENCE", reference);
+        args.putString("TITLE", title);
+        args.putString("SUBTITLE", subtitle);
+        args.putString("DESCRIPTION", description);
         fragment.setArguments(args);
 
         return fragment;
@@ -70,16 +69,16 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
 
 
     public String getReference(){
-        return getArguments().getString(getString(R.string.reference_bundle));
+        return getArguments().getString("REFERENCE");
     }
 
     public String getTitle(){
-        return getArguments().getString(getString(R.string.title_bundle));
+        return getArguments().getString("TITLE");
     }
 
-    public String getSubtitle() { return getArguments().getString(getString(R.string.subtitle_bundle));}
+    public String getSubtitle() { return getArguments().getString("SUBTITLE");}
 
-    public String getDescription() { return getArguments().getString(getString(R.string.description_bundle)); }
+    public String getDescription() { return getArguments().getString("DESCRIPTION"); }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

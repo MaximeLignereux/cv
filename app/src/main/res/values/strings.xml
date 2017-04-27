@@ -26,9 +26,6 @@
     <string name="send_mail_contact">Envoyer un email</string>
     <string name="call_contact">Appeler</string>
     <string name="reference_bundle">REFERENCE</string>
-    <string name="title_bundle">TITLE</string>
-    <string name="subtitle_bundle">SUBTITLE</string>
-    <string name="description_bundle">DESCRIPTION</string>
 
 
 </resources>

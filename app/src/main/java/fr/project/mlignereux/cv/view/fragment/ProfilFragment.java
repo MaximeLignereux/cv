@@ -21,7 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import fr.project.mlignereux.cv.R;
 import fr.project.mlignereux.cv.model.Profil;
 
 public class ProfilFragment extends Fragment {
@@ -36,19 +35,19 @@ public class ProfilFragment extends Fragment {
 
         ProfilFragment fragment = new ProfilFragment();
         Bundle args = new Bundle();
-        args.putString(String.valueOf(R.string.reference_bundle), reference);
-        args.putString(String.valueOf(R.string.title_bundle), title);
+        args.putString("TITLE", title);
+        args.putString("REFERENCE", reference);
         fragment.setArguments(args);
 
         return fragment;
     }
 
     public String getReference(){
-        return getArguments().getString(getString(R.string.reference_bundle));
+        return getArguments().getString("REFERENCE");
     }
 
     public String getTitle(){
-        return getArguments().getString(getString(R.string.title_bundle));
+        return getArguments().getString("TITLE");
     }
 
     @Nullable
