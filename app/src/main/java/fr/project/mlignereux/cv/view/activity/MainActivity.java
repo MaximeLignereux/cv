@@ -1,4 +1,4 @@
-package com.example.frup69513.cv.view.activity;
+package fr.project.mlignereux.cv.view.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -15,12 +15,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.frup69513.cv.R;
-import com.example.frup69513.cv.model.Profil;
-import com.example.frup69513.cv.view.fragment.ContactFragment;
-import com.example.frup69513.cv.view.fragment.DataFragment;
-import com.example.frup69513.cv.view.fragment.ProfilFragment;
-import com.example.frup69513.cv.view.fragment.SkillFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +22,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import fr.project.mlignereux.cv.R;
+import fr.project.mlignereux.cv.model.Profil;
+import fr.project.mlignereux.cv.view.fragment.ContactFragment;
+import fr.project.mlignereux.cv.view.fragment.DataFragment;
+import fr.project.mlignereux.cv.view.fragment.ProfilFragment;
+import fr.project.mlignereux.cv.view.fragment.SkillFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
-        setContentView(R.layout.activity_main);
+        setContentView(fr.project.mlignereux.cv.R.layout.activity_main);
 
         if(mReference == null){
             mReference = FirebaseDatabase.getInstance().getReference();
@@ -55,12 +55,12 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(fr.project.mlignereux.cv.R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(fr.project.mlignereux.cv.R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, fr.project.mlignereux.cv.R.string.navigation_drawer_open, fr.project.mlignereux.cv.R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 

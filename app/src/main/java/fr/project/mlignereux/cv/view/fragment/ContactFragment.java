@@ -1,4 +1,4 @@
-package com.example.frup69513.cv.view.fragment;
+package fr.project.mlignereux.cv.view.fragment;
 
 import android.Manifest;
 import android.content.Context;
@@ -25,13 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.frup69513.cv.R;
-import com.example.frup69513.cv.model.Contact;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import fr.project.mlignereux.cv.R;
+import fr.project.mlignereux.cv.model.Contact;
 
 public class ContactFragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -58,10 +59,10 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
 
         ContactFragment fragment = new ContactFragment();
         Bundle args = new Bundle();
-        args.putString("REFERENCE", reference);
-        args.putString("TITLE", title);
-        args.putString("SUBTITLE", subtitle);
-        args.putString("DESCRIPTION", description);
+        args.putString(String.valueOf(R.string.reference_bundle), reference);
+        args.putString(String.valueOf(R.string.title_bundle), title);
+        args.putString(String.valueOf(R.string.subtitle_bundle), subtitle);
+        args.putString(String.valueOf(R.string.description_bundle), description);
         fragment.setArguments(args);
 
         return fragment;
@@ -69,16 +70,16 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
 
 
     public String getReference(){
-        return getArguments().getString("REFERENCE");
+        return getArguments().getString(getString(R.string.reference_bundle));
     }
 
     public String getTitle(){
-        return getArguments().getString("TITLE");
+        return getArguments().getString(getString(R.string.title_bundle));
     }
 
-    public String getSubtitle() { return getArguments().getString("SUBTITLE");}
+    public String getSubtitle() { return getArguments().getString(getString(R.string.subtitle_bundle));}
 
-    public String getDescription() { return getArguments().getString("DESCRIPTION"); }
+    public String getDescription() { return getArguments().getString(getString(R.string.description_bundle)); }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,18 +94,18 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View v =  inflater.inflate(R.layout.fragment_contact, container, false);
+        final View v =  inflater.inflate(fr.project.mlignereux.cv.R.layout.fragment_contact, container, false);
 
-        mFab = (FloatingActionButton) v.findViewById(R.id.fab);
-        mFab1 = (FloatingActionButton) v.findViewById(R.id.fab1);
-        mFab2 = (FloatingActionButton) v.findViewById(R.id.fab2);
-        mCallTv = (TextView) v.findViewById(R.id.tv_call);
-        mEmailTv = (TextView) v.findViewById(R.id.tv_email);
+        mFab = (FloatingActionButton) v.findViewById(fr.project.mlignereux.cv.R.id.fab);
+        mFab1 = (FloatingActionButton) v.findViewById(fr.project.mlignereux.cv.R.id.fab1);
+        mFab2 = (FloatingActionButton) v.findViewById(fr.project.mlignereux.cv.R.id.fab2);
+        mCallTv = (TextView) v.findViewById(fr.project.mlignereux.cv.R.id.tv_call);
+        mEmailTv = (TextView) v.findViewById(fr.project.mlignereux.cv.R.id.tv_email);
 
-        fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
-        fab_close = AnimationUtils.loadAnimation(mContext,R.anim.fab_close);
-        rotate_forward = AnimationUtils.loadAnimation(mContext,R.anim.rotate_forward);
-        rotate_backward = AnimationUtils.loadAnimation(mContext,R.anim.rotate_backward);
+        fab_open = AnimationUtils.loadAnimation(mContext, fr.project.mlignereux.cv.R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(mContext, fr.project.mlignereux.cv.R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(mContext, fr.project.mlignereux.cv.R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(mContext, fr.project.mlignereux.cv.R.anim.rotate_backward);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getTitle());
 
@@ -115,16 +116,16 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
             }
         });
 
-        final TextView stateTextView = (TextView)v.findViewById(R.id.tv_contact_state);
-        final TextView bornDateTextView = (TextView)v.findViewById(R.id.tv_contact_born_date);
-        final TextView mailTextView = (TextView)v.findViewById(R.id.tv_contact_mail);
-        final TextView phoneTextView = (TextView)v.findViewById(R.id.tv_contact_phone);
-        final TextView addressTextView = (TextView)v.findViewById(R.id.tv_contact_address);
-        final TextView driversLicenseTextView = (TextView)v.findViewById(R.id.tv_contact_drivers_license);
-        final TextView linkedinTextView = (TextView)v.findViewById(R.id.tv_contact_linkedin);
-        final TextView viadeoTextView = (TextView)v.findViewById(R.id.tv_contact_viadeo);
-        final ImageView viadeoImageView = (ImageView)v.findViewById(R.id.iv_contact_viadeo);
-        final ImageView linkedinImageView = (ImageView)v.findViewById(R.id.iv_contact_linkedin);
+        final TextView stateTextView = (TextView)v.findViewById(fr.project.mlignereux.cv.R.id.tv_contact_state);
+        final TextView bornDateTextView = (TextView)v.findViewById(fr.project.mlignereux.cv.R.id.tv_contact_born_date);
+        final TextView mailTextView = (TextView)v.findViewById(fr.project.mlignereux.cv.R.id.tv_contact_mail);
+        final TextView phoneTextView = (TextView)v.findViewById(fr.project.mlignereux.cv.R.id.tv_contact_phone);
+        final TextView addressTextView = (TextView)v.findViewById(fr.project.mlignereux.cv.R.id.tv_contact_address);
+        final TextView driversLicenseTextView = (TextView)v.findViewById(fr.project.mlignereux.cv.R.id.tv_contact_drivers_license);
+        final TextView linkedinTextView = (TextView)v.findViewById(fr.project.mlignereux.cv.R.id.tv_contact_linkedin);
+        final TextView viadeoTextView = (TextView)v.findViewById(fr.project.mlignereux.cv.R.id.tv_contact_viadeo);
+        final ImageView viadeoImageView = (ImageView)v.findViewById(fr.project.mlignereux.cv.R.id.iv_contact_viadeo);
+        final ImageView linkedinImageView = (ImageView)v.findViewById(fr.project.mlignereux.cv.R.id.iv_contact_linkedin);
 
 
         mDatabase.child(getReference()).addValueEventListener(new ValueEventListener() {
@@ -288,7 +289,6 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
                     startActivity(callIntent);
 
                 }
-                return;
             }
 
 

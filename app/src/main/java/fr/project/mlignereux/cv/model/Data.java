@@ -1,4 +1,4 @@
-package com.example.frup69513.cv.model;
+package fr.project.mlignereux.cv.model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

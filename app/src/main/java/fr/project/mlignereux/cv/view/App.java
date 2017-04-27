@@ -1,4 +1,4 @@
-package com.example.frup69513.cv.view;
+package fr.project.mlignereux.cv.view;
 
 import android.app.Application;
 import android.util.Log;

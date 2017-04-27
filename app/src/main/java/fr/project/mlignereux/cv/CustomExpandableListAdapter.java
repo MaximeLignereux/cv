@@ -1,4 +1,4 @@
-package com.example.frup69513.cv;
+package fr.project.mlignereux.cv;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -9,7 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.frup69513.cv.model.Skill;
+import fr.project.mlignereux.cv.model.Skill;
 
 import java.util.HashMap;
 import java.util.List;

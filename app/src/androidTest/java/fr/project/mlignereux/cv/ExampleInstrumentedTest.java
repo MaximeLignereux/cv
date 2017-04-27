@@ -1,4 +1,4 @@
-package com.example.frup69513.cv;
+package fr.project.mlignereux.cv;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

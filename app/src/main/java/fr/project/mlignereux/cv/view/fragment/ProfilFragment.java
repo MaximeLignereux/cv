@@ -1,4 +1,4 @@
-package com.example.frup69513.cv.view.fragment;
+package fr.project.mlignereux.cv.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.frup69513.cv.R;
-import com.example.frup69513.cv.model.Profil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,12 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import fr.project.mlignereux.cv.R;
+import fr.project.mlignereux.cv.model.Profil;
 
 public class ProfilFragment extends Fragment {
 
     private final static String TAG = "ProfilFragment";
 
-    private DatabaseReference mDatabase;
     private Context mContext;
 
     public ProfilFragment(){}
@@ -37,38 +36,34 @@ public class ProfilFragment extends Fragment {
 
         ProfilFragment fragment = new ProfilFragment();
         Bundle args = new Bundle();
-        args.putString("TITLE", title);
-        args.putString("REFERENCE", reference);
+        args.putString(String.valueOf(R.string.reference_bundle), reference);
+        args.putString(String.valueOf(R.string.title_bundle), title);
         fragment.setArguments(args);
 
         return fragment;
     }
 
     public String getReference(){
-        return getArguments().getString("REFERENCE");
+        return getArguments().getString(getString(R.string.reference_bundle));
     }
 
     public String getTitle(){
-        return getArguments().getString("TITLE");
+        return getArguments().getString(getString(R.string.title_bundle));
     }
-
-    public String getSubtitle() { return getArguments().getString("SUBTITLE");}
-
-    public String getDescription() { return getArguments().getString("DESCRIPTION"); }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_profil,container, false);
+        View v = inflater.inflate(fr.project.mlignereux.cv.R.layout.fragment_profil,container, false);
 
-        final CircleImageView circleImageView = (CircleImageView) v.findViewById(R.id.civ_image_profil);
-        final ImageView imageViewTop = (ImageView) v.findViewById(R.id.image_view_top);
-        final TextView profilNameTextView = (TextView) v.findViewById(R.id.profil_name);
-        final TextView profilJobTextView = (TextView) v.findViewById(R.id.profil_job);
-        final TextView descriptionTextView = (TextView) v.findViewById(R.id.tv_description_profil);
-        final FloatingActionButton contactFab = (FloatingActionButton) v.findViewById(R.id.fab_contact);
+        final CircleImageView circleImageView = (CircleImageView) v.findViewById(fr.project.mlignereux.cv.R.id.civ_image_profil);
+        final ImageView imageViewTop = (ImageView) v.findViewById(fr.project.mlignereux.cv.R.id.image_view_top);
+        final TextView profilNameTextView = (TextView) v.findViewById(fr.project.mlignereux.cv.R.id.profil_name);
+        final TextView profilJobTextView = (TextView) v.findViewById(fr.project.mlignereux.cv.R.id.profil_job);
+        final TextView descriptionTextView = (TextView) v.findViewById(fr.project.mlignereux.cv.R.id.tv_description_profil);
+        final FloatingActionButton contactFab = (FloatingActionButton) v.findViewById(fr.project.mlignereux.cv.R.id.fab_contact);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mContext = getContext().getApplicationContext();
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getTitle());
@@ -98,7 +93,7 @@ public class ProfilFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.content_main, ContactFragment.newInstance("contact", "Contact", "", ""))
+                        .replace(fr.project.mlignereux.cv.R.id.content_main, ContactFragment.newInstance("contact", "Contact", "", ""))
                         .commit();
             }
         });

@@ -1,4 +1,4 @@
-package com.example.frup69513.cv.view.fragment;
+package fr.project.mlignereux.cv.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,12 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.frup69513.cv.R;
-import com.example.frup69513.cv.model.Data;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+
+import fr.project.mlignereux.cv.R;
+import fr.project.mlignereux.cv.model.Data;
 
 
 public class DataFragment extends Fragment {
@@ -31,7 +32,6 @@ public class DataFragment extends Fragment {
 
     private FirebaseRecyclerAdapter<Data, DataViewHolder> mAdapter;
     private RecyclerView mRecycler;
-    private LinearLayoutManager mLinearLayoutManager;
 
     private Context mContext;
 
@@ -44,26 +44,27 @@ public class DataFragment extends Fragment {
 
         DataFragment fragment = new DataFragment();
         Bundle args = new Bundle();
-        args.putString("REFERENCE", reference);
-        args.putString("TITLE", title);
-        args.putString("SUBTITLE", subtitle);
-        args.putString("DESCRIPTION", description);
+        args.putString(String.valueOf(R.string.reference_bundle), reference);
+        args.putString(String.valueOf(R.string.title_bundle), title);
+        args.putString(String.valueOf(R.string.subtitle_bundle), subtitle);
+        args.putString(String.valueOf(R.string.description_bundle), description);
         fragment.setArguments(args);
 
         return fragment;
     }
 
     public String getReference(){
-        return getArguments().getString("REFERENCE");
+        return getArguments().getString(getString(R.string.reference_bundle));
     }
 
     public String getTitle(){
-        return getArguments().getString("TITLE");
+        return getArguments().getString(getString(R.string.title_bundle));
     }
 
-    public String getSubtitle() { return getArguments().getString("SUBTITLE");}
+    public String getSubtitle() { return getArguments().getString(getString(R.string.subtitle_bundle));}
 
-    public String getDescription() { return getArguments().getString("DESCRIPTION"); }
+    public String getDescription() { return getArguments().getString(getString(R.string.description_bundle)); }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,13 +81,13 @@ public class DataFragment extends Fragment {
         Log.d(TAG, "onCreateView()");
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_data_list, container, false);
+        View view = inflater.inflate(fr.project.mlignereux.cv.R.layout.fragment_data_list, container, false);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getTitle());
 
         mContext = view.getContext();
 
-        mRecycler = (RecyclerView) view.findViewById(R.id.list);
+        mRecycler = (RecyclerView) view.findViewById(fr.project.mlignereux.cv.R.id.list);
 
         return view;
     }
@@ -96,14 +97,14 @@ public class DataFragment extends Fragment {
         Log.d(TAG, "onActivityCreated()");
         super.onActivityCreated(savedInstanceState);
 
-        mLinearLayoutManager = new LinearLayoutManager(mContext);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
 
         Query dataQuery = mDatabase.child(getReference()).orderByKey();
         dataQuery.keepSynced(true);
 
         mAdapter = new FirebaseRecyclerAdapter<Data, DataViewHolder>(
                 Data.class,
-                R.layout.fragment_data,
+                fr.project.mlignereux.cv.R.layout.fragment_data,
                 DataViewHolder.class,
                 dataQuery ) {
 
@@ -145,13 +146,13 @@ public class DataFragment extends Fragment {
 
         public DataViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.tv_title);
-            date = (TextView) itemView.findViewById(R.id.tv_date);
-            subtitle = (TextView) itemView.findViewById(R.id.tv_subtitle);
-            subtitle_content = (TextView) itemView.findViewById(R.id.tv_subtitle_content);
-            description = (TextView) itemView.findViewById(R.id.tv_description);
-            description_content = (TextView)itemView.findViewById(R.id.tv_description_content);
-            imageView = (ImageView) itemView.findViewById(R.id.iv_image);
+            title = (TextView) itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_title);
+            date = (TextView) itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_date);
+            subtitle = (TextView) itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_subtitle);
+            subtitle_content = (TextView) itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_subtitle_content);
+            description = (TextView) itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_description);
+            description_content = (TextView)itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_description_content);
+            imageView = (ImageView) itemView.findViewById(fr.project.mlignereux.cv.R.id.iv_image);
         }
     }
 }

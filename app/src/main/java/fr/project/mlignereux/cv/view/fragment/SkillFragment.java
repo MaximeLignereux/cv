@@ -1,4 +1,4 @@
-package com.example.frup69513.cv.view.fragment;
+package fr.project.mlignereux.cv.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,9 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
-import com.example.frup69513.cv.CustomExpandableListAdapter;
-import com.example.frup69513.cv.R;
-import com.example.frup69513.cv.model.Skill;
+import fr.project.mlignereux.cv.CustomExpandableListAdapter;
+import fr.project.mlignereux.cv.model.Skill;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -68,11 +67,11 @@ public class SkillFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView()");
 
-        View v = inflater.inflate(R.layout.fragment_skill_list, container, false);
+        View v = inflater.inflate(fr.project.mlignereux.cv.R.layout.fragment_skill_list, container, false);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getTitle());
 
-        mExpandableListView = (ExpandableListView) v.findViewById(R.id.expanded_list);
+        mExpandableListView = (ExpandableListView) v.findViewById(fr.project.mlignereux.cv.R.id.expanded_list);
         mExpandableListTitle = new ArrayList<>();
         mExpandableListDetail = new HashMap<>();
 

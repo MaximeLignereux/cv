@@ -35,7 +35,6 @@
 
                 <TextView
                     android:id="@+id/tv_title"
-                    android:text="Master S2I"
                     android:layout_marginTop="10dp"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:layout_width="wrap_content"
@@ -46,7 +45,6 @@
 
                 <TextView
                     android:id="@+id/tv_date"
-                    android:text="2015-2016"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -66,7 +64,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="sans-serif"
-                android:text="Subtitle"
                 android:textStyle="italic" />
 
             <TextView
@@ -87,7 +84,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Description"
                 android:textStyle="italic" />
 
             <TextView

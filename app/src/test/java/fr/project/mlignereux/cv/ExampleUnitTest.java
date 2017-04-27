@@ -1,4 +1,4 @@
-package com.example.frup69513.cv;
+package fr.project.mlignereux.cv;
 
 import org.junit.Test;
 

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.frup69513.cv.view.fragment.SkillFragment">
+    tools:context="fr.project.mlignereux.cv.view.fragment.SkillFragment">
 
     <ExpandableListView
         android:id="@+id/expanded_list"

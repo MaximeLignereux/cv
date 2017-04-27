@@ -4,5 +4,31 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="profil_title">Profil</string>
+    <string name="studies_title">Etudes</string>
+    <string name="formation_title">Formation</string>
+    <string name="skill_title">Compétences</string>
+    <string name="contact_title">Contact</string>
+    <string name="project_title">Projet</string>
+    <string name="volunteer_title">Expérience bénévole</string>
+    <string name="experience_title">Expériences</string>
+    <string name="professional_title">Expérience professionelle</string>
+    <string name="other_title">Autre</string>
+    <string name="hobbies_title">Centres d\'intérêt</string>
+
+    <string name="state_contact">SITUATION FAMILIALE</string>
+    <string name="born_date_contact">DATE DE NAISSANCE</string>
+    <string name="mail_contact">EMAIL</string>
+    <string name="phone_contact">NUMERO DE TELEPHONE</string>
+    <string name="address_contact">ADRESSE POSTALE</string>
+    <string name="drivers_license_contact">PERMIS DE CONDUIRE</string>
+    <string name="social_network_contact">RESEAUX SOCIAUX PROFESSIONELS</string>
+    <string name="send_mail_contact">Envoyer un email</string>
+    <string name="call_contact">Appeler</string>
+    <string name="reference_bundle">REFERENCE</string>
+    <string name="title_bundle">TITLE</string>
+    <string name="subtitle_bundle">SUBTITLE</string>
+    <string name="description_bundle">DESCRIPTION</string>
+
 
 </resources>
