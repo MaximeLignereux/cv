@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(fr.project.mlignereux.cv.R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         if(mReference == null){
             mReference = FirebaseDatabase.getInstance().getReference();
@@ -46,10 +46,10 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        final Toolbar toolbar = (Toolbar) findViewById(fr.project.mlignereux.cv.R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(fr.project.mlignereux.cv.R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, fr.project.mlignereux.cv.R.string.navigation_drawer_open, fr.project.mlignereux.cv.R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
         final TextView mailTextView = (TextView) header.findViewById(R.id.tv_mail_header);
         final CircleImageView circleImageView = (CircleImageView) header.findViewById(R.id.civ_image_header);
 
-        mReference.child("profil").addValueEventListener(new ValueEventListener() {
+        mReference.child(getString(R.string.profil_bundle)).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Profil profil = dataSnapshot.getValue(Profil.class);
@@ -108,35 +108,35 @@ public class MainActivity extends AppCompatActivity
 
         switch (id){
             case R.id.profil:
-                fragment = ProfilFragment.newInstance("profil", "Profil");
+                fragment = ProfilFragment.newInstance(getString(R.string.profil_bundle), getString(R.string.profil_title));
                 break;
 
             case R.id.nav_formation :
-                fragment = DataFragment.newInstance("formation", "Formation", "Option : ", "Technologies étudiées : ");
+                fragment = DataFragment.newInstance(getString(R.string.formation_bundle), getString(R.string.formation_title), getString(R.string.option_data), getString(R.string.techno_data));
                 break;
 
             case R.id.nav_studie_project:
-                fragment = DataFragment.newInstance("projet_etude", "Projet", "Contexte : ", "Description : ");
+                fragment = DataFragment.newInstance(getString(R.string.project_bundle), getString(R.string.project_title), getString(R.string.contexte_data), getString(R.string.description_data));
                 break;
 
             case R.id.nav_vounteer_experience:
-                fragment = DataFragment.newInstance("benevolat", "Expérience bénévole", "Rôle : ", "Description : ");
+                fragment = DataFragment.newInstance(getString(R.string.volunteer_bundle), getString(R.string.volunteer_title), getString(R.string.role_data), getString(R.string.description_data));
                 break;
 
             case R.id.nav_professional_experience:
-                fragment = DataFragment.newInstance("professionnelle", "Expérience professionelle", "Poste : ", "Description : ");
+                fragment = DataFragment.newInstance(getString(R.string.professional_bundle), getString(R.string.professional_title), getString(R.string.poste_data), getString(R.string.description_data));
                 break;
 
             case R.id.nav_skill:
-                fragment = SkillFragment.newInstance("competence", "Compétences");
+                fragment = SkillFragment.newInstance(getString(R.string.skill_bundle), getString(R.string.skill_title));
                 break;
 
             case R.id.nav_hobbie:
-                fragment = DataFragment.newInstance("hobbie", "Centres d'intérêt", "", "");
+                fragment = DataFragment.newInstance(getString(R.string.hobbies_bundle), getString(R.string.hobbies_title), "", "");
                 break;
 
             case R.id.nav_contact:
-                fragment = ContactFragment.newInstance("contact", "Contact", "", "");
+                fragment = ContactFragment.newInstance(getString(R.string.contact_bundle), getString(R.string.contact_title));
                 break;
         }
 

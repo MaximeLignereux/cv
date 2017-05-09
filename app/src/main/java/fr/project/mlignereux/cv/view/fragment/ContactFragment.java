@@ -52,14 +52,12 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
         // Required empty public constructor
     }
 
-    public static ContactFragment newInstance(String reference, String title, String subtitle, String description) {
+    public static ContactFragment newInstance(String reference, String title) {
 
         ContactFragment fragment = new ContactFragment();
         Bundle args = new Bundle();
         args.putString("REFERENCE", reference);
         args.putString("TITLE", title);
-        args.putString("SUBTITLE", subtitle);
-        args.putString("DESCRIPTION", description);
         fragment.setArguments(args);
 
         return fragment;
@@ -73,10 +71,6 @@ public class ContactFragment extends Fragment implements ActivityCompat.OnReques
     public String getTitle(){
         return getArguments().getString("TITLE");
     }
-
-    public String getSubtitle() { return getArguments().getString("SUBTITLE");}
-
-    public String getDescription() { return getArguments().getString("DESCRIPTION"); }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -22,6 +22,8 @@
 # This rule will properly ProGuard all the model classes in
 # the package com.yourcompany.models. Modify to fit the structure
 # of your app.
--keepclassmembers com.example.frup69513.cv.model.** {
-  *;
-}
+-keepclassmembers class fr.project.mlignereux.cv.model.* {*;}
+
+-keepnames class fr.project.mlignereux.cv.model.*
+
+-keep class fr.project.mlignereux.cv.view.fragment.DataFragment$* {*;}

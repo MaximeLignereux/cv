@@ -25,7 +25,29 @@
     <string name="social_network_contact">RESEAUX SOCIAUX PROFESSIONELS</string>
     <string name="send_mail_contact">Envoyer un email</string>
     <string name="call_contact">Appeler</string>
+
     <string name="reference_bundle">REFERENCE</string>
+    <string name="title_bundle">TITLE</string>
+    <string name="subtitle_bundle">SUBTITLE</string>
+    <string name="description_bundle">DESCRIPTION</string>
+
+    <string name="profil_bundle">profil</string>
+    <string name="formation_bundle">formation</string>
+    <string name="skill_bundle">competence</string>
+    <string name="contact_bundle">contact</string>
+    <string name="project_bundle">projet_etude</string>
+    <string name="volunteer_bundle">benevolat</string>
+    <string name="professional_bundle">professionnelle</string>
+    <string name="hobbies_bundle">hobbie</string>
+
+    <string name="option_data">Option : </string>
+    <string name="description_data">Description : </string>
+    <string name="poste_data">Poste : </string>
+    <string name="role_data">Rôle : </string>
+    <string name="contexte_data">Contexte : </string>
+    <string name="techno_data">Technologies étudiées : </string>
+
+
 
 
 </resources>

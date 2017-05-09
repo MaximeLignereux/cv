@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import fr.project.mlignereux.cv.R;
 import fr.project.mlignereux.cv.model.Data;
 
 
@@ -29,8 +29,9 @@ public class DataFragment extends Fragment {
 
     private DatabaseReference mDatabase;
 
-    private FirebaseRecyclerAdapter<Data, DataViewHolder> mAdapter;
+    public FirebaseRecyclerAdapter<Data, DataViewHolder> mAdapter;
     private RecyclerView mRecycler;
+    private LinearLayoutManager mLinearLayoutManager;
 
     private Context mContext;
 
@@ -76,30 +77,29 @@ public class DataFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(fr.project.mlignereux.cv.R.layout.fragment_data_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_data_list, container, false);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getTitle());
 
         mContext = view.getContext();
 
-        mRecycler = (RecyclerView) view.findViewById(fr.project.mlignereux.cv.R.id.list);
+        mRecycler = (RecyclerView) view.findViewById(R.id.list);
 
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
 
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
+        mLinearLayoutManager = new LinearLayoutManager(mContext);
 
         Query dataQuery = mDatabase.child(getReference()).orderByKey();
         dataQuery.keepSynced(true);
 
         mAdapter = new FirebaseRecyclerAdapter<Data, DataViewHolder>(
                 Data.class,
-                fr.project.mlignereux.cv.R.layout.fragment_data,
+                R.layout.fragment_data,
                 DataViewHolder.class,
                 dataQuery ) {
 
@@ -117,6 +117,8 @@ public class DataFragment extends Fragment {
             }
         };
 
+        mAdapter.notifyDataSetChanged();
+
         mRecycler.setLayoutManager(mLinearLayoutManager);
         mRecycler.setAdapter(mAdapter);
     }
@@ -129,7 +131,7 @@ public class DataFragment extends Fragment {
         }
     }
 
-    private static class DataViewHolder extends RecyclerView.ViewHolder {
+    public static class DataViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView date;
         private TextView subtitle;
@@ -140,13 +142,13 @@ public class DataFragment extends Fragment {
 
         public DataViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_title);
-            date = (TextView) itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_date);
-            subtitle = (TextView) itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_subtitle);
-            subtitle_content = (TextView) itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_subtitle_content);
-            description = (TextView) itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_description);
-            description_content = (TextView)itemView.findViewById(fr.project.mlignereux.cv.R.id.tv_description_content);
-            imageView = (ImageView) itemView.findViewById(fr.project.mlignereux.cv.R.id.iv_image);
+            title = (TextView) itemView.findViewById(R.id.tv_title);
+            date = (TextView) itemView.findViewById(R.id.tv_date);
+            subtitle = (TextView) itemView.findViewById(R.id.tv_subtitle);
+            subtitle_content = (TextView) itemView.findViewById(R.id.tv_subtitle_content);
+            description = (TextView) itemView.findViewById(R.id.tv_description);
+            description_content = (TextView)itemView.findViewById(R.id.tv_description_content);
+            imageView = (ImageView) itemView.findViewById(R.id.iv_image);
         }
     }
 }

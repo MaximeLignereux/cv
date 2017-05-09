@@ -10,7 +10,6 @@ public class Data {
     private String subtitle;
     private String date;
     private String description;
-    private String where;
 
 
     public Data(){}
@@ -35,7 +34,4 @@ public class Data {
         return description;
     }
 
-    public String getWhere() {
-        return where;
-    }
 }

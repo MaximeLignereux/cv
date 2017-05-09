@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import fr.project.mlignereux.cv.R;
 import fr.project.mlignereux.cv.model.Profil;
 
 public class ProfilFragment extends Fragment {
@@ -54,12 +55,12 @@ public class ProfilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(fr.project.mlignereux.cv.R.layout.fragment_profil,container, false);
 
-        final CircleImageView circleImageView = (CircleImageView) v.findViewById(fr.project.mlignereux.cv.R.id.civ_image_profil);
-        final ImageView imageViewTop = (ImageView) v.findViewById(fr.project.mlignereux.cv.R.id.image_view_top);
-        final TextView profilNameTextView = (TextView) v.findViewById(fr.project.mlignereux.cv.R.id.profil_name);
-        final TextView profilJobTextView = (TextView) v.findViewById(fr.project.mlignereux.cv.R.id.profil_job);
-        final TextView descriptionTextView = (TextView) v.findViewById(fr.project.mlignereux.cv.R.id.tv_description_profil);
-        final FloatingActionButton contactFab = (FloatingActionButton) v.findViewById(fr.project.mlignereux.cv.R.id.fab_contact);
+        final CircleImageView circleImageView = (CircleImageView) v.findViewById(R.id.civ_image_profil);
+        final ImageView imageViewTop = (ImageView) v.findViewById(R.id.image_view_top);
+        final TextView profilNameTextView = (TextView) v.findViewById(R.id.profil_name);
+        final TextView profilJobTextView = (TextView) v.findViewById(R.id.profil_job);
+        final TextView descriptionTextView = (TextView) v.findViewById(R.id.tv_description_profil);
+        final FloatingActionButton contactFab = (FloatingActionButton) v.findViewById(R.id.fab_contact);
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mContext = getContext().getApplicationContext();
@@ -89,7 +90,7 @@ public class ProfilFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(fr.project.mlignereux.cv.R.id.content_main, ContactFragment.newInstance("contact", "Contact", "", ""))
+                        .replace(fr.project.mlignereux.cv.R.id.content_main, ContactFragment.newInstance(getString(R.string.contact_bundle), getString(R.string.contact_title)))
                         .commit();
             }
         });

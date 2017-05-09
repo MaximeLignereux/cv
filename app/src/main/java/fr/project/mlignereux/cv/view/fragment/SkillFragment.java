@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,10 +53,6 @@ public class SkillFragment extends Fragment {
         return getArguments().getString("TITLE");
     }
 
-    public String getSubtitle() { return getArguments().getString("SUBTITLE");}
-
-    public String getDescription() { return getArguments().getString("DESCRIPTION"); }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +74,7 @@ public class SkillFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                List<Skill> skills = new ArrayList<Skill>();
+                List<Skill> skills = new ArrayList<>();
                 mExpandableListTitle.add(dataSnapshot.getKey());
 
                 for(DataSnapshot d : dataSnapshot.getChildren()){
@@ -96,7 +91,7 @@ public class SkillFragment extends Fragment {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                List<Skill> skills = new ArrayList<Skill>();
+                List<Skill> skills = new ArrayList<>();
 
                 mExpandableListTitle.add(dataSnapshot.getKey());
 
