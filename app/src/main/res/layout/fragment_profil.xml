@@ -15,12 +15,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_description_profil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin" />
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -63,11 +57,13 @@
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab_contact"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|end"
                     android:layout_margin="@dimen/fab_margin"
-                    android:src="@drawable/ic_message" />
+                    android:src="@drawable/ic_message"
+                    app:fabCustomSize="75dp"
+                    app:fabSize="auto"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/civ_image_profil"
@@ -79,6 +75,13 @@
                     app:civ_border_width="3dp" />
 
             </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_description_profil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

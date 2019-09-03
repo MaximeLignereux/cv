@@ -9,10 +9,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.*
@@ -24,10 +20,9 @@ import fr.project.mlignereux.cv.view.fragment.DataFragment
 import fr.project.mlignereux.cv.view.fragment.ProfilFragment
 import fr.project.mlignereux.cv.view.fragment.SkillFragment
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var mReference: DatabaseReference
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +36,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         val navigationView: NavigationView = findViewById(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener(this)
 
         val fragmentManager = supportFragmentManager
         fragmentManager.beginTransaction()
-                .replace(R.id.content_main, ProfilFragment.newInstance("profil", "Profil"))
+                .replace(R.id.content_main, ProfilFragment.newInstance(getString(R.string.profil_bundle), getString(R.string.profil_title)))
                 .commit()
 
         val header = navigationView.getHeaderView(0)
@@ -81,47 +77,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        val id = item.itemId
-
-        var fragment: Fragment? = null
-
-        when (id) {
-            R.id.nav_profil -> {
-                fragment = ProfilFragment.newInstance(getString(R.string.profil_bundle), getString(R.string.profil_title))
-                return true
-            }
-            R.id.nav_formation -> {
-                fragment = DataFragment.newInstance(getString(R.string.formation_bundle), getString(R.string.formation_title), getString(R.string.option_data), getString(R.string.techno_data))
-            }
-            R.id.nav_studie_project -> {
-                fragment = DataFragment.newInstance(getString(R.string.project_bundle), getString(R.string.project_title), getString(R.string.contexte_data), getString(R.string.description_data))
-            }
-            R.id.nav_vounteer_experience ->                     {
-                fragment = DataFragment.newInstance(getString(R.string.volunteer_bundle), getString(R.string.volunteer_title), getString(R.string.role_data), getString(R.string.description_data))
-            }
-            R.id.nav_professional_experience -> {
-                fragment = DataFragment.newInstance(getString(R.string.professional_bundle), getString(R.string.professional_title), getString(R.string.poste_data), getString(R.string.description_data))
-            }
-            R.id.nav_skill -> {
-                fragment = SkillFragment.newInstance(getString(R.string.skill_bundle), getString(R.string.skill_title))
-            }
-            R.id.nav_hobbie -> {
-                fragment = DataFragment.newInstance(getString(R.string.hobbies_bundle), getString(R.string.hobbies_title), "", "")
-            }
-            R.id.nav_contact -> {
-                fragment = ContactFragment.newInstance(getString(R.string.contact_bundle), getString(R.string.contact_title))
-            }
+        val fragment: Fragment = when (item.itemId) {
+            R.id.nav_profil -> ProfilFragment.newInstance(getString(R.string.profil_bundle), getString(R.string.profil_title))
+            R.id.nav_formation -> DataFragment.newInstance(getString(R.string.formation_bundle), getString(R.string.formation_title), getString(R.string.option_data), getString(R.string.techno_data))
+            R.id.nav_studie_project -> DataFragment.newInstance(getString(R.string.project_bundle), getString(R.string.project_title), getString(R.string.contexte_data), getString(R.string.description_data))
+            R.id.nav_vounteer_experience -> DataFragment.newInstance(getString(R.string.volunteer_bundle), getString(R.string.volunteer_title), getString(R.string.role_data), getString(R.string.description_data))
+            R.id.nav_professional_experience -> DataFragment.newInstance(getString(R.string.professional_bundle), getString(R.string.professional_title), getString(R.string.poste_data), getString(R.string.description_data))
+            R.id.nav_skill -> SkillFragment.newInstance(getString(R.string.skill_bundle), getString(R.string.skill_title))
+            R.id.nav_hobbie -> DataFragment.newInstance(getString(R.string.hobbies_bundle), getString(R.string.hobbies_title), "", "")
+            R.id.nav_contact -> ContactFragment.newInstance(getString(R.string.contact_bundle), getString(R.string.contact_title))
+            else -> ProfilFragment.newInstance(getString(R.string.profil_bundle), getString(R.string.profil_title))
         }
 
-        if (fragment != null) {
-            val fragmentManager = supportFragmentManager
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_main, fragment)
-                    .commit()
-            val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-            drawer.closeDrawer(GravityCompat.START)
-        }
+        val fragmentManager = supportFragmentManager
+        fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit()
+        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
+        drawer.closeDrawer(GravityCompat.START)
+
         return true
     }
 
