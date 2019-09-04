@@ -15,8 +15,8 @@ import java.util.*
 class CustomExpandableListAdapter(private val context: Context, private val expandableListTitle: List<String>,
                                   private val expandableListDetail: HashMap<String?, List<Skill>>) : BaseExpandableListAdapter() {
 
-    override fun getChild(listPosition: Int, expandedListPosition: Int): Any {
-        return this.expandableListDetail[this.expandableListTitle[listPosition]]!![expandedListPosition]
+    override fun getChild(listPosition: Int, expandedListPosition: Int): Skill? {
+        return this.expandableListDetail[this.expandableListTitle[listPosition]]?.get(expandedListPosition)
     }
 
     override fun getChildId(listPosition: Int, expandedListPosition: Int): Long {
@@ -28,24 +28,22 @@ class CustomExpandableListAdapter(private val context: Context, private val expa
 
         val skill = getChild(listPosition, expandedListPosition) as Skill
 
-        if (convertView == null) {
-            val layoutInflater = this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        if (view == null) {
+            val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             view = layoutInflater.inflate(R.layout.fragment_skill, null)
         }
 
-        val expandedListTextView = convertView!!.findViewById<View>(R.id.name_skill_textview) as TextView
+        val expandedListTextView = view?.findViewById<View>(R.id.name_skill_textview) as TextView
         expandedListTextView.text = skill.title
 
-        val expandedProgressBar = convertView.findViewById<View>(R.id.skill_progress_bar) as ProgressBar
+        val expandedProgressBar = view.findViewById<View>(R.id.skill_progress_bar) as ProgressBar
         expandedProgressBar.progress = skill.value.toInt()
 
         return view
     }
 
     override fun getChildrenCount(listPosition: Int): Int {
-        return this.expandableListDetail[this.expandableListTitle[listPosition]]!!
-                .size
+        return this.expandableListDetail[this.expandableListTitle[listPosition]]?.size ?: 0
     }
 
     override fun getGroup(listPosition: Int): Any {
@@ -68,8 +66,7 @@ class CustomExpandableListAdapter(private val context: Context, private val expa
             val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             view = layoutInflater.inflate(R.layout.fragment_skill_group, null)
         }
-        val listTitleTextView = convertView!!
-                .findViewById<View>(R.id.listTitle) as TextView
+        val listTitleTextView = view?.findViewById<View>(R.id.listTitle) as TextView
         listTitleTextView.setTypeface(null, Typeface.BOLD)
         listTitleTextView.text = listTitle
         return view
