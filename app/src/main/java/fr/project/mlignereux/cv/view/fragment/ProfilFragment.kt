@@ -15,14 +15,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import de.hdodenhof.circleimageview.CircleImageView
-import fr.project.mlignereux.cv.R
+import fr.project.mlignereux.R
 import fr.project.mlignereux.cv.model.Profil
 
 class ProfilFragment : Fragment() {
-    val reference: String?
+    private val reference: String?
         get() = arguments?.getString("REFERENCE")
 
-    val title: String?
+    private val title: String?
         get() = arguments?.getString("TITLE")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -37,7 +37,7 @@ class ProfilFragment : Fragment() {
 
         val mDatabase = FirebaseDatabase.getInstance().reference
 
-        (activity as AppCompatActivity).supportActionBar?.setTitle(title)
+        (activity as AppCompatActivity).supportActionBar?.title = title
 
         reference?.let {
             mDatabase.child(it).addValueEventListener(object : ValueEventListener {

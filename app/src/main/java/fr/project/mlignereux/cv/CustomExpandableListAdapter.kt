@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.ProgressBar
 import android.widget.TextView
+import fr.project.mlignereux.R
 import fr.project.mlignereux.cv.model.Skill
 import java.util.*
 
@@ -22,15 +23,15 @@ class CustomExpandableListAdapter(private val context: Context, private val expa
         return expandedListPosition.toLong()
     }
 
-    override fun getChildView(listPosition: Int, expandedListPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+    override fun getChildView(listPosition: Int, expandedListPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup): View? {
+        var view = convertView
 
         val skill = getChild(listPosition, expandedListPosition) as Skill
 
         if (convertView == null) {
             val layoutInflater = this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(R.layout.fragment_skill, null)
+            view = layoutInflater.inflate(R.layout.fragment_skill, null)
         }
 
         val expandedListTextView = convertView!!.findViewById<View>(R.id.name_skill_textview) as TextView
@@ -39,7 +40,7 @@ class CustomExpandableListAdapter(private val context: Context, private val expa
         val expandedProgressBar = convertView.findViewById<View>(R.id.skill_progress_bar) as ProgressBar
         expandedProgressBar.progress = skill.value.toInt()
 
-        return convertView
+        return view
     }
 
     override fun getChildrenCount(listPosition: Int): Int {
@@ -60,18 +61,18 @@ class CustomExpandableListAdapter(private val context: Context, private val expa
     }
 
     override fun getGroupView(listPosition: Int, isExpanded: Boolean,
-                              convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+                              convertView: View?, parent: ViewGroup): View? {
+        var view = convertView
         val listTitle = getGroup(listPosition) as String
-        if (convertView == null) {
+        if (view == null) {
             val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(R.layout.fragment_skill_group, null)
+            view = layoutInflater.inflate(R.layout.fragment_skill_group, null)
         }
         val listTitleTextView = convertView!!
                 .findViewById<View>(R.id.listTitle) as TextView
         listTitleTextView.setTypeface(null, Typeface.BOLD)
         listTitleTextView.text = listTitle
-        return convertView
+        return view
     }
 
     override fun hasStableIds(): Boolean {

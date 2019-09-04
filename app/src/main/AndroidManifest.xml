@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fr.project.mlignereux.cv">
+    package="fr.project.mlignereux">
 
     <application
-        android:name=".view.App"
+        android:name=".cv.view.App"
         android:allowBackup="true"
         android:configChanges="orientation"
         android:icon="@mipmap/ic_launcher"
@@ -12,11 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.activity.Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".view.activity.MainActivity"
+            android:name=".cv.view.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,8 +21,8 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

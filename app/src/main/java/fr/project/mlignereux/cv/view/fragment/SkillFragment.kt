@@ -12,39 +12,40 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import fr.project.mlignereux.R
 import fr.project.mlignereux.cv.CustomExpandableListAdapter
 import fr.project.mlignereux.cv.model.Skill
 import java.util.*
 
 class SkillFragment : Fragment() {
 
-    lateinit var mExpandableListView: ExpandableListView
-    lateinit var mExpandableListAdapter: ExpandableListAdapter
-    lateinit var mExpandableListTitle: MutableList<String>
-    lateinit var mExpandableListDetail: HashMap<String?, List<Skill>>
+    lateinit var expandableListView: ExpandableListView
+    lateinit var expandableListAdapter: ExpandableListAdapter
+    lateinit var expandableListTitle: MutableList<String>
+    lateinit var expandableListDetail: HashMap<String?, List<Skill>>
 
-    val reference: String?
+    private val reference: String?
         get() = arguments?.getString("REFERENCE")
 
-    val title: String?
+    private val title: String?
         get() = arguments?.getString("TITLE")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        val v = inflater.inflate(fr.project.mlignereux.cv.R.layout.fragment_skill_list, container, false)
+        val v = inflater.inflate(R.layout.fragment_skill_list, container, false)
 
         (activity as AppCompatActivity).supportActionBar?.title = title
 
-        mExpandableListView = v.findViewById<View>(fr.project.mlignereux.cv.R.id.expanded_list) as ExpandableListView
-        mExpandableListTitle = ArrayList()
-        mExpandableListDetail = HashMap()
+        expandableListView = v.findViewById<View>(R.id.expanded_list) as ExpandableListView
+        expandableListTitle = ArrayList()
+        expandableListDetail = HashMap()
 
         reference?.let {
             FirebaseDatabase.getInstance().reference.child(it).addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
 
                     val skills = ArrayList<Skill>()
-                    dataSnapshot.key?.let { it1 -> (mExpandableListTitle as ArrayList<String>).add(it1) }
+                    dataSnapshot.key?.let { it1 -> (expandableListTitle as ArrayList<String>).add(it1) }
 
                     for (d in dataSnapshot.children) {
                         val skill = d.getValue(Skill::class.java)
@@ -52,21 +53,21 @@ class SkillFragment : Fragment() {
                             skills.add(skill)
                         }
                     }
-                    mExpandableListDetail[dataSnapshot.key] = skills
-                    mExpandableListAdapter = CustomExpandableListAdapter(requireContext(), mExpandableListTitle, mExpandableListDetail)
-                    mExpandableListView.setAdapter(mExpandableListAdapter)
+                    expandableListDetail[dataSnapshot.key] = skills
+                    expandableListAdapter = CustomExpandableListAdapter(requireContext(), expandableListTitle, expandableListDetail)
+                    expandableListView.setAdapter(expandableListAdapter)
                 }
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
                     val skills = ArrayList<Skill>()
-                    dataSnapshot.key?.let { it1 -> mExpandableListTitle.add(it1) }
+                    dataSnapshot.key?.let { it1 -> expandableListTitle.add(it1) }
                     for (d in dataSnapshot.children) {
                         val skill = d.getValue(Skill::class.java)
                         skill?.let { it1 -> skills.add(it1) }
                     }
-                    mExpandableListDetail[dataSnapshot.key] = skills
-                    mExpandableListAdapter = CustomExpandableListAdapter(requireContext(), mExpandableListTitle, mExpandableListDetail)
-                    mExpandableListView.setAdapter(mExpandableListAdapter)
+                    expandableListDetail[dataSnapshot.key] = skills
+                    expandableListAdapter = CustomExpandableListAdapter(requireContext(), expandableListTitle, expandableListDetail)
+                    expandableListView.setAdapter(expandableListAdapter)
                 }
 
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {

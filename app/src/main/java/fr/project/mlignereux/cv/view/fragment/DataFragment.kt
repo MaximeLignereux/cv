@@ -1,6 +1,5 @@
 package fr.project.mlignereux.cv.view.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,32 +15,32 @@ import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import fr.project.mlignereux.cv.R
+import fr.project.mlignereux.R
 import fr.project.mlignereux.cv.model.Data
 
 class DataFragment : Fragment() {
 
-    private var mDatabase: DatabaseReference? = null
+    private var database: DatabaseReference? = null
 
-    lateinit var mAdapter: FirebaseRecyclerAdapter<Data, DataViewHolder>
-    private lateinit var mRecycler: RecyclerView
-    private lateinit var mLinearLayoutManager: LinearLayoutManager
+    private lateinit var adapter: FirebaseRecyclerAdapter<Data, DataViewHolder>
+    private lateinit var recycler: RecyclerView
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
-    val reference: String?
+    private val reference: String?
         get() = arguments?.getString("REFERENCE")
 
-    val title: String?
+    private val title: String?
         get() = arguments?.getString("TITLE")
 
-    val subtitle: String?
+    private val subtitle: String?
         get() = arguments?.getString("SUBTITLE")
 
-    val description: String?
+    private val description: String?
         get() = arguments?.getString("DESCRIPTION")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mDatabase = FirebaseDatabase.getInstance().reference
+        database = FirebaseDatabase.getInstance().reference
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +51,7 @@ class DataFragment : Fragment() {
 
         (activity as AppCompatActivity).supportActionBar?.title = title
 
-        mRecycler = view.findViewById<View>(R.id.list) as RecyclerView
+        recycler = view.findViewById<View>(R.id.list) as RecyclerView
 
         return view
     }
@@ -60,12 +59,12 @@ class DataFragment : Fragment() {
     override fun onActivityCreated(@Nullable savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        mLinearLayoutManager = LinearLayoutManager(requireContext())
+        linearLayoutManager = LinearLayoutManager(requireContext())
 
-        val dataQuery = reference?.let { mDatabase?.child(it)?.orderByKey() }
+        val dataQuery = reference?.let { database?.child(it)?.orderByKey() }
         dataQuery?.keepSynced(true)
 
-        mAdapter = object : FirebaseRecyclerAdapter<Data, DataViewHolder>(
+        adapter = object : FirebaseRecyclerAdapter<Data, DataViewHolder>(
             Data::class.java,
             R.layout.fragment_data,
             DataViewHolder::class.java,
@@ -84,15 +83,15 @@ class DataFragment : Fragment() {
             }
         }
 
-        mAdapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
 
-        mRecycler.layoutManager = mLinearLayoutManager
-        mRecycler.adapter = mAdapter
+        recycler.layoutManager = linearLayoutManager
+        recycler.adapter = adapter
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mAdapter.cleanup()
+        adapter.cleanup()
     }
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

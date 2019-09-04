@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
-import fr.project.mlignereux.cv.R
+import fr.project.mlignereux.R
 import fr.project.mlignereux.cv.model.Profil
 import fr.project.mlignereux.cv.view.fragment.ContactFragment
 import fr.project.mlignereux.cv.view.fragment.DataFragment

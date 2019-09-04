@@ -21,35 +21,35 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.*
-import fr.project.mlignereux.cv.R
+import fr.project.mlignereux.R
 import fr.project.mlignereux.cv.model.Contact
 
 class ContactFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallback {
 
     private var isFabOpen: Boolean = false
-    private lateinit var mFab: FloatingActionButton
-    private lateinit var mFab1: FloatingActionButton
-    private lateinit var mFab2: FloatingActionButton
-    private lateinit var fab_open: Animation
-    private lateinit var fab_close: Animation
-    private lateinit var rotate_forward: Animation
-    private lateinit var rotate_backward: Animation
-    private lateinit var mEmailTv: TextView
-    private lateinit var mCallTv: TextView
+    private lateinit var fab: FloatingActionButton
+    private lateinit var fab1: FloatingActionButton
+    private lateinit var fab2: FloatingActionButton
+    private lateinit var fabOpen: Animation
+    private lateinit var fabClose: Animation
+    private lateinit var rotateForward: Animation
+    private lateinit var rotateBackward: Animation
+    private lateinit var emailTv: TextView
+    private lateinit var callTv: TextView
 
-    private lateinit var mDatabase: DatabaseReference
+    private lateinit var database: DatabaseReference
 
     private var callNumber: String? = null
 
-    val reference: String?
+    private val reference: String?
         get() = arguments?.getString("REFERENCE")
 
-    val title: String?
+    private val title: String?
         get() = arguments?.getString("TITLE")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mDatabase = FirebaseDatabase.getInstance().reference
+        database = FirebaseDatabase.getInstance().reference
 
     }
 
@@ -58,20 +58,20 @@ class ContactFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCal
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_contact, container, false)
 
-        mFab = v.findViewById<View>(R.id.fab) as FloatingActionButton
-        mFab1 = v.findViewById<View>(R.id.fab1) as FloatingActionButton
-        mFab2 = v.findViewById<View>(R.id.fab2) as FloatingActionButton
-        mCallTv = v.findViewById<View>(R.id.tv_call) as TextView
-        mEmailTv = v.findViewById<View>(R.id.tv_email) as TextView
+        fab = v.findViewById<View>(R.id.fab) as FloatingActionButton
+        fab1 = v.findViewById<View>(R.id.fab1) as FloatingActionButton
+        fab2 = v.findViewById<View>(R.id.fab2) as FloatingActionButton
+        callTv = v.findViewById<View>(R.id.tv_call) as TextView
+        emailTv = v.findViewById<View>(R.id.tv_email) as TextView
 
-        fab_open = AnimationUtils.loadAnimation(requireContext(), R.anim.fab_open)
-        fab_close = AnimationUtils.loadAnimation(requireContext(), R.anim.fab_close)
-        rotate_forward = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_forward)
-        rotate_backward = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_backward)
+        fabOpen = AnimationUtils.loadAnimation(requireContext(), R.anim.fab_open)
+        fabClose = AnimationUtils.loadAnimation(requireContext(), R.anim.fab_close)
+        rotateForward = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_forward)
+        rotateBackward = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_backward)
 
-        (activity as AppCompatActivity).supportActionBar?.setTitle(title)
+        (activity as AppCompatActivity).supportActionBar?.title = title
 
-        mFab.setOnClickListener { animateFAB() }
+        fab.setOnClickListener { animateFAB() }
 
         val stateTextView = v.findViewById<View>(R.id.tv_contact_state) as TextView
         val bornDateTextView = v.findViewById<View>(R.id.tv_contact_born_date) as TextView
@@ -86,7 +86,7 @@ class ContactFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCal
 
 
         reference?.let {
-            mDatabase.child(it).addValueEventListener(object : ValueEventListener {
+            database.child(it).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                     val contact = dataSnapshot.getValue(Contact::class.java)
@@ -122,7 +122,7 @@ class ContactFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCal
     }
 
     private fun call(number: String?) {
-        mFab1.setOnClickListener {
+        fab1.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) !== PackageManager.PERMISSION_GRANTED) {
 
                 if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.CALL_PHONE)) {
@@ -157,7 +157,7 @@ class ContactFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCal
 
     private fun sendMail(email: String?) {
 
-        mFab2.setOnClickListener {
+        fab2.setOnClickListener {
             val i = Intent(Intent.ACTION_SEND)
             i.type = "message/rfc822"
             i.putExtra(Intent.EXTRA_EMAIL, arrayOf(email.orEmpty()))
@@ -172,22 +172,22 @@ class ContactFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCal
 
     private fun animateFAB() {
         if (isFabOpen) {
-            mFab.startAnimation(rotate_backward)
-            mFab1.startAnimation(fab_close)
-            mFab2.startAnimation(fab_close)
-            mCallTv.startAnimation(fab_close)
-            mEmailTv.startAnimation(fab_close)
-            mFab1.isClickable = false
-            mFab2.isClickable = false
+            fab.startAnimation(rotateBackward)
+            fab1.startAnimation(fabClose)
+            fab2.startAnimation(fabClose)
+            callTv.startAnimation(fabClose)
+            emailTv.startAnimation(fabClose)
+            fab1.isClickable = false
+            fab2.isClickable = false
             isFabOpen = false
         } else {
-            mFab.startAnimation(rotate_forward)
-            mFab1.startAnimation(fab_open)
-            mFab2.startAnimation(fab_open)
-            mCallTv.startAnimation(fab_open)
-            mEmailTv.startAnimation(fab_open)
-            mFab1.isClickable = true
-            mFab2.isClickable = true
+            fab.startAnimation(rotateForward)
+            fab1.startAnimation(fabOpen)
+            fab2.startAnimation(fabOpen)
+            callTv.startAnimation(fabOpen)
+            emailTv.startAnimation(fabOpen)
+            fab1.isClickable = true
+            fab2.isClickable = true
             isFabOpen = true
         }
     }
