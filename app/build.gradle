@@ -41,6 +41,10 @@ android {
         }
 
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     signingConfigs {
         release {
             v2SigningEnabled false
@@ -59,6 +63,9 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
+    implementation project(':base')
+    
+    //androidx
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraintlayout_version"
     implementation "androidx.navigation:navigation-fragment:$androix_support_version"
@@ -77,6 +84,14 @@ dependencies {
     implementation "com.firebaseui:firebase-ui-database:$firebase_ui_version"
     implementation "de.hdodenhof:circleimageview:$circle_imageview_version"
     implementation "com.github.bumptech.glide:glide:$glide_version"
+
+    //dagger
+    api "com.google.dagger:dagger:$dagger_version"
+    api "com.google.dagger:dagger-android:$dagger_version"
+    api "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
 
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation("androidx.test.espresso:espresso-core:$espresso_version", {

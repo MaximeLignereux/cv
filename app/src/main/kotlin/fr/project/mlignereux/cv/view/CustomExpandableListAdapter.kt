@@ -1,4 +1,4 @@
-package fr.project.mlignereux.cv
+package fr.project.mlignereux.cv.view
 
 import android.content.Context
 import android.graphics.Typeface

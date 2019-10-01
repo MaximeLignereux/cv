@@ -51,4 +51,5 @@ ext {
 
     junit_version = '4.12'
     espresso_version = '3.2.0'
+    dagger_version = '2.24'
 }

@@ -13,7 +13,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import fr.project.mlignereux.R
-import fr.project.mlignereux.cv.CustomExpandableListAdapter
+import fr.project.mlignereux.cv.view.CustomExpandableListAdapter
 import fr.project.mlignereux.cv.model.Skill
 import java.util.*
 
@@ -54,7 +54,12 @@ class SkillFragment : Fragment() {
                         }
                     }
                     expandableListDetail[dataSnapshot.key] = skills
-                    expandableListAdapter = CustomExpandableListAdapter(requireContext(), expandableListTitle, expandableListDetail)
+                    expandableListAdapter =
+                        CustomExpandableListAdapter(
+                            requireContext(),
+                            expandableListTitle,
+                            expandableListDetail
+                        )
                     expandableListView.setAdapter(expandableListAdapter)
                 }
 
@@ -66,7 +71,12 @@ class SkillFragment : Fragment() {
                         skill?.let { it1 -> skills.add(it1) }
                     }
                     expandableListDetail[dataSnapshot.key] = skills
-                    expandableListAdapter = CustomExpandableListAdapter(requireContext(), expandableListTitle, expandableListDetail)
+                    expandableListAdapter =
+                        CustomExpandableListAdapter(
+                            requireContext(),
+                            expandableListTitle,
+                            expandableListDetail
+                        )
                     expandableListView.setAdapter(expandableListAdapter)
                 }
 
