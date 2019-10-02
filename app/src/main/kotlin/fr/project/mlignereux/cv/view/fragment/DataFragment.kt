@@ -8,17 +8,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import dagger.android.support.DaggerFragment
 import fr.project.mlignereux.R
 import fr.project.mlignereux.cv.model.Data
+import fr.project.mlignereux.cv.view.ImageLoader
+import javax.inject.Inject
 
-class DataFragment : Fragment() {
+class DataFragment : DaggerFragment() {
+
+    @Inject
+    lateinit var imageLoader: ImageLoader
 
     private var database: DatabaseReference? = null
 
@@ -43,16 +47,12 @@ class DataFragment : Fragment() {
         database = FirebaseDatabase.getInstance().reference
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_data_list, container, false)
 
         (activity as AppCompatActivity).supportActionBar?.title = title
-
-        recycler = view.findViewById<View>(R.id.list) as RecyclerView
-
+        recycler = view.findViewById(R.id.list) as RecyclerView
         return view
     }
 
@@ -64,11 +64,7 @@ class DataFragment : Fragment() {
         val dataQuery = reference?.let { database?.child(it)?.orderByKey() }
         dataQuery?.keepSynced(true)
 
-        adapter = object : FirebaseRecyclerAdapter<Data, DataViewHolder>(
-            Data::class.java,
-            R.layout.fragment_data,
-            DataViewHolder::class.java,
-            dataQuery) {
+        adapter = object : FirebaseRecyclerAdapter<Data, DataViewHolder>(Data::class.java, R.layout.fragment_data, DataViewHolder::class.java, dataQuery) {
 
             override fun populateViewHolder(viewHolder: DataViewHolder, model: Data, position: Int) {
 
@@ -79,7 +75,7 @@ class DataFragment : Fragment() {
                 viewHolder.description.text = description
                 viewHolder.descriptionContent.text = model.description
 
-                Glide.with(requireContext()).load(model.imageUrl).skipMemoryCache(true).into(viewHolder.imageView)
+                imageLoader.loadImage(model.imageUrl, viewHolder.imageView)
             }
         }
 
@@ -95,18 +91,16 @@ class DataFragment : Fragment() {
     }
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById<View>(R.id.tv_title) as TextView
-        val date: TextView = itemView.findViewById<View>(R.id.tv_date) as TextView
-        val subtitle: TextView = itemView.findViewById<View>(R.id.tv_subtitle) as TextView
-        val subtitleContent: TextView = itemView.findViewById<View>(R.id.tv_subtitle_content) as TextView
-        val description: TextView = itemView.findViewById<View>(R.id.tv_description) as TextView
-        val descriptionContent: TextView = itemView.findViewById<View>(R.id.tv_description_content) as TextView
-        val imageView: ImageView = itemView.findViewById<View>(R.id.iv_image) as ImageView
+        val title: TextView = itemView.findViewById(R.id.tv_title) as TextView
+        val date: TextView = itemView.findViewById(R.id.tv_date) as TextView
+        val subtitle: TextView = itemView.findViewById(R.id.tv_subtitle) as TextView
+        val subtitleContent: TextView = itemView.findViewById(R.id.tv_subtitle_content) as TextView
+        val description: TextView = itemView.findViewById(R.id.tv_description) as TextView
+        val descriptionContent: TextView = itemView.findViewById(R.id.tv_description_content) as TextView
+        val imageView: ImageView = itemView.findViewById(R.id.iv_image) as ImageView
     }
 
     companion object {
-
-        private val TAG = "DataFragment"
 
         fun newInstance(reference: String, title: String, subtitle: String, description: String): DataFragment {
 

@@ -9,6 +9,7 @@ import fr.project.mlignereux.cv.CvApplication
 import fr.project.mlignereux.cv.di.module.ActivityModule
 import fr.project.mlignereux.cv.di.module.CvApplicationModule
 import fr.project.mlignereux.cv.di.module.FragmentModule
+import fr.project.mlignereux.cv.di.module.ImageLoaderModule
 import javax.inject.Singleton
 
 @Singleton
@@ -17,6 +18,7 @@ import javax.inject.Singleton
         CvApplicationModule::class,
         ActivityModule::class,
         FragmentModule::class,
+        ImageLoaderModule::class,
         AndroidSupportInjectionModule::class]
 )
 interface CvApplicationComponent  : ApplicationComponent, AndroidInjector<CvApplication> {

@@ -17,14 +17,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.*
+import dagger.android.support.DaggerFragment
 import fr.project.mlignereux.R
 import fr.project.mlignereux.cv.model.Contact
+import fr.project.mlignereux.cv.view.ImageLoader
+import javax.inject.Inject
 
-class ContactFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallback {
+class ContactFragment : DaggerFragment(), ActivityCompat.OnRequestPermissionsResultCallback {
+
+    @Inject
+    lateinit var imageLoader: ImageLoader
 
     private var isFabOpen: Boolean = false
     private lateinit var fab: FloatingActionButton
@@ -38,118 +42,96 @@ class ContactFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCal
     private lateinit var callTv: TextView
 
     private lateinit var database: DatabaseReference
+    private lateinit var reference: String
 
-    private var callNumber: String? = null
-
-    private val reference: String?
-        get() = arguments?.getString("REFERENCE")
-
-    private val title: String?
-        get() = arguments?.getString("TITLE")
+    private lateinit var callNumber: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         database = FirebaseDatabase.getInstance().reference
-
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        // Inflate the layout for this fragment
-        val v = inflater.inflate(R.layout.fragment_contact, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val view = inflater.inflate(R.layout.fragment_contact, container, false)
 
-        fab = v.findViewById<View>(R.id.fab) as FloatingActionButton
-        fab1 = v.findViewById<View>(R.id.fab1) as FloatingActionButton
-        fab2 = v.findViewById<View>(R.id.fab2) as FloatingActionButton
-        callTv = v.findViewById<View>(R.id.tv_call) as TextView
-        emailTv = v.findViewById<View>(R.id.tv_email) as TextView
+        fab = view.findViewById(R.id.fab) as FloatingActionButton
+        fab1 = view.findViewById(R.id.fab1) as FloatingActionButton
+        fab2 = view.findViewById(R.id.fab2) as FloatingActionButton
+        callTv = view.findViewById(R.id.tv_call) as TextView
+        emailTv = view.findViewById(R.id.tv_email) as TextView
 
         fabOpen = AnimationUtils.loadAnimation(requireContext(), R.anim.fab_open)
         fabClose = AnimationUtils.loadAnimation(requireContext(), R.anim.fab_close)
         rotateForward = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_forward)
         rotateBackward = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_backward)
 
-        (activity as AppCompatActivity).supportActionBar?.title = title
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.contact_title)
 
         fab.setOnClickListener { animateFAB() }
 
-        val stateTextView = v.findViewById<View>(R.id.tv_contact_state) as TextView
-        val bornDateTextView = v.findViewById<View>(R.id.tv_contact_born_date) as TextView
-        val mailTextView = v.findViewById<View>(R.id.tv_contact_mail) as TextView
-        val phoneTextView = v.findViewById<View>(R.id.tv_contact_phone) as TextView
-        val addressTextView = v.findViewById<View>(R.id.tv_contact_address) as TextView
-        val driversLicenseTextView = v.findViewById<View>(R.id.tv_contact_drivers_license) as TextView
-        val linkedinTextView = v.findViewById<View>(R.id.tv_contact_linkedin) as TextView
-        val viadeoTextView = v.findViewById<View>(R.id.tv_contact_viadeo) as TextView
-        val viadeoImageView = v.findViewById<View>(R.id.iv_contact_viadeo) as ImageView
-        val linkedinImageView = v.findViewById<View>(R.id.iv_contact_linkedin) as ImageView
+        val stateTextView = view.findViewById(R.id.tv_contact_state) as TextView
+        val bornDateTextView = view.findViewById(R.id.tv_contact_born_date) as TextView
+        val mailTextView = view.findViewById(R.id.tv_contact_mail) as TextView
+        val phoneTextView = view.findViewById(R.id.tv_contact_phone) as TextView
+        val addressTextView = view.findViewById(R.id.tv_contact_address) as TextView
+        val driversLicenseTextView = view.findViewById(R.id.tv_contact_drivers_license) as TextView
+        val linkedinTextView = view.findViewById(R.id.tv_contact_linkedin) as TextView
+        val viadeoTextView = view.findViewById(R.id.tv_contact_viadeo) as TextView
+        val viadeoImageView = view.findViewById(R.id.iv_contact_viadeo) as ImageView
+        val linkedinImageView = view.findViewById(R.id.iv_contact_linkedin) as ImageView
 
+        reference = getString(R.string.contact_bundle)
 
-        reference?.let {
-            database.child(it).addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
+        database.child(reference).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                    val contact = dataSnapshot.getValue(Contact::class.java)
+                val contact = dataSnapshot.getValue(Contact::class.java) ?: Contact()
 
-                    stateTextView.text = contact?.state
-                    bornDateTextView.text = contact?.bornDate
-                    mailTextView.text = contact?.email
-                    phoneTextView.text = contact?.phone
-                    addressTextView.text = contact?.address
-                    driversLicenseTextView.text = contact?.driversLicense
-                    linkedinTextView.text = contact?.linkedin
-                    viadeoTextView.text = contact?.viadeo
+                stateTextView.text = contact.state
+                bornDateTextView.text = contact.bornDate
+                mailTextView.text = contact.email
+                phoneTextView.text = contact.phone
+                addressTextView.text = contact.address
+                driversLicenseTextView.text = contact.driversLicense
+                linkedinTextView.text = contact.linkedin
+                viadeoTextView.text = contact.viadeo
 
-                    Glide.with(requireContext()).load(contact?.linkedinIcon).skipMemoryCache(true).into(linkedinImageView)
-                    Glide.with(requireContext()).load(contact?.viadeoIcon).skipMemoryCache(true).into(viadeoImageView)
+                imageLoader.loadImage(contact.linkedinIcon, linkedinImageView)
+                imageLoader.loadImage(contact.viadeoIcon, viadeoImageView)
 
-                    callNumber = contact?.phone
+                callNumber = contact.phone ?: ""
+                call(callNumber)
 
-                    call(callNumber)
+                sendMail(contact.email)
+            }
 
-                    sendMail(contact?.email)
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-
-                }
-            })
-        }
-
-
-
-        return v
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+        return view
     }
 
     private fun call(number: String?) {
         fab1.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) !== PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
 
                 if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.CALL_PHONE)) {
 
-                    // Show an explanation to the user *asynchronously* -- don't block
-                    // this thread waiting for the user's response! After the user
-                    // sees the explanation, try again to request the permission.
-
                     val builder = AlertDialog.Builder(requireContext())
-
                     builder.setMessage("Vous devez autoriser l'application à utiliser votre appareil pour téléphoner")
-
-                    builder.setPositiveButton("Ok") { dialog, id -> requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), CALL_PERMISSION) }
+                    builder.setPositiveButton("Ok") { dialog, id ->
+                        requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), CALL_PERMISSION)
+                    }
                     builder.setNegativeButton("Annuler") { dialog, id -> dialog.dismiss() }
 
                     val dialog = builder.create()
-
                     dialog.show()
 
                 } else {
-
-                    // No explanation needed, we can request the permission.
                     requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), CALL_PERMISSION)
                 }
             } else {
                 val callIntent = Intent(Intent.ACTION_CALL)
-                callIntent.data = Uri.parse("tel:" + number!!)
+                callIntent.data = Uri.parse("tel:$number")
                 startActivity(callIntent)
             }
         }
@@ -192,15 +174,14 @@ class ContactFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCal
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         when (requestCode) {
             CALL_PERMISSION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     val callIntent = Intent(Intent.ACTION_CALL)
-                    callIntent.data = Uri.parse("tel:" + callNumber!!)
+                    callIntent.data = Uri.parse("tel:$callNumber")
                     startActivity(callIntent)
                 }
             }
@@ -208,22 +189,7 @@ class ContactFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCal
     }
 
     companion object {
-
-        private val TAG = "ContactFragment"
-
-        private val CALL_PERMISSION = 1
-
-        fun newInstance(reference: String, title: String): ContactFragment {
-
-            val fragment = ContactFragment()
-            val args = Bundle()
-            args.putString("REFERENCE", reference)
-            args.putString("TITLE", title)
-            fragment.arguments = args
-
-            return fragment
-        }
+        private const val CALL_PERMISSION = 1
     }
-
 
 }
