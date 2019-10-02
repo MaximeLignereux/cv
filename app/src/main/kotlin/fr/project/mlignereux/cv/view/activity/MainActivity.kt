@@ -25,8 +25,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     @Inject
     lateinit var imageLoader: ImageLoader
-
-    private lateinit var databaseReference: DatabaseReference
+    @Inject
+    lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +51,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val mailTextView = header.findViewById(R.id.tv_mail_header) as TextView
         val circleImageView = header.findViewById(R.id.civ_image_header) as CircleImageView
 
-        databaseReference = FirebaseDatabase.getInstance().reference
-        databaseReference.keepSynced(true)
-        databaseReference.child(getString(R.string.profil_bundle)).addValueEventListener(object : ValueEventListener {
+        database.keepSynced(true)
+        database.child(getString(R.string.profil_bundle)).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val profil = dataSnapshot.getValue(Profil::class.java) ?: Profil()
 

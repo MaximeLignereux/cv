@@ -66,16 +66,16 @@ dependencies {
     implementation project(':base')
     
     //androidx
-    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
+    implementation "androidx.appcompat:appcompat:$androidx_version"
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraintlayout_version"
     implementation "androidx.navigation:navigation-fragment:$androix_support_version"
     implementation "androidx.navigation:navigation-ui:$androix_support_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$androix_support_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androix_support_version"
     implementation "androidx.navigation:navigation-ui-ktx:$androix_support_version"
-    implementation "androidx.legacy:legacy-support-v4:$androidx_version"
-    implementation "androidx.recyclerview:recyclerview:$androidx_version"
-    implementation "androidx.cardview:cardview:$androidx_version"
+    implementation "androidx.legacy:legacy-support-v4:$androidx_appcompat_version"
+    implementation "androidx.recyclerview:recyclerview:$androidx_appcompat_version"
+    implementation "androidx.cardview:cardview:$androidx_appcompat_version"
 
     implementation "com.google.android.material:material:$android_material_version"
     implementation "com.google.firebase:firebase-database:$firebase_database_version"

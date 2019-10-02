@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath 'com.google.gms:google-services:4.3.1'
+        classpath 'com.google.gms:google-services:4.3.2'
         classpath 'io.fabric.tools:gradle:1.31.0'
     }
 }
@@ -29,10 +29,10 @@ ext {
     compileSdkVersion = 29
     buildToolsVersion = '29.0.2'
 
-    androidx_version = '1.0.0'
-    androidx_appcompat_version = '1.0.2'
+    androidx_version = '1.1.0'
+    androidx_appcompat_version = '1.0.0'
     androidx_constraintlayout_version = '1.1.3'
-    androix_support_version = '2.0.0'
+    androix_support_version = '2.1.0'
     kotlin_version = '1.3.50'
 
     android_material_version = '1.0.0'
@@ -40,7 +40,7 @@ ext {
     gms_library_version = '18.1.1'
 
     firebase_analytics_version = '17.2.0'
-    firebase_database_version = '19.0.0'
+    firebase_database_version = '19.1.0'
     firebase_ui_version = '2.1.0'
 
     crashlytics_version = '2.10.1'

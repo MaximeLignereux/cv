@@ -10,21 +10,23 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
 import dagger.android.support.DaggerFragment
 import fr.project.mlignereux.R
 import fr.project.mlignereux.cv.model.Skill
 import fr.project.mlignereux.cv.view.CustomExpandableListAdapter
 import java.util.*
+import javax.inject.Inject
 
 class SkillFragment : DaggerFragment() {
+
+    @Inject
+    lateinit var databaseReference: DatabaseReference
 
     lateinit var expandableListView: ExpandableListView
     lateinit var expandableListAdapter: ExpandableListAdapter
     lateinit var expandableListTitle: MutableList<String>
     lateinit var expandableListDetail: HashMap<String?, List<Skill>>
-
-    private lateinit var reference: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
@@ -34,10 +36,7 @@ class SkillFragment : DaggerFragment() {
         expandableListView = view.findViewById(R.id.expanded_list) as ExpandableListView
         expandableListTitle = ArrayList()
         expandableListDetail = HashMap()
-
-        reference = getString(R.string.skill_bundle)
-
-        FirebaseDatabase.getInstance().reference.child(reference).addChildEventListener(object : ChildEventListener {
+        databaseReference.child(getString(R.string.skill_bundle)).addChildEventListener(object : ChildEventListener {
 
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                 updateExpandableList(dataSnapshot)
@@ -53,7 +52,6 @@ class SkillFragment : DaggerFragment() {
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-
         return view
     }
 

@@ -6,10 +6,7 @@ import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import fr.project.mlignereux.base.di.component.ApplicationComponent
 import fr.project.mlignereux.cv.CvApplication
-import fr.project.mlignereux.cv.di.module.ActivityModule
-import fr.project.mlignereux.cv.di.module.CvApplicationModule
-import fr.project.mlignereux.cv.di.module.FragmentModule
-import fr.project.mlignereux.cv.di.module.ImageLoaderModule
+import fr.project.mlignereux.cv.di.module.*
 import javax.inject.Singleton
 
 @Singleton
@@ -19,6 +16,7 @@ import javax.inject.Singleton
         ActivityModule::class,
         FragmentModule::class,
         ImageLoaderModule::class,
+        FirebaseInstanceModule::class,
         AndroidSupportInjectionModule::class]
 )
 interface CvApplicationComponent  : ApplicationComponent, AndroidInjector<CvApplication> {

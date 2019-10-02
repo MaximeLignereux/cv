@@ -8,10 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import dagger.android.support.DaggerFragment
 import de.hdodenhof.circleimageview.CircleImageView
 import fr.project.mlignereux.R
@@ -23,8 +20,8 @@ class ProfilFragment : DaggerFragment() {
 
     @Inject
     lateinit var imageLoader: ImageLoader
-
-    private lateinit var reference: String
+    @Inject
+    lateinit var databaseReference: DatabaseReference
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_profil, container, false)
@@ -35,14 +32,9 @@ class ProfilFragment : DaggerFragment() {
         val profilJobTextView = view.findViewById(R.id.profil_job) as TextView
         val descriptionTextView = view.findViewById(R.id.tv_description_profil) as TextView
         val contactFab = view.findViewById(R.id.fab_contact) as FloatingActionButton
-
-        val mDatabase = FirebaseDatabase.getInstance().reference
-
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.profil_title)
 
-        reference = getString(R.string.profil_bundle)
-
-        mDatabase.child(reference).addValueEventListener(object : ValueEventListener {
+        databaseReference.child(getString(R.string.profil_bundle)).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 val profil = dataSnapshot.getValue(Profil::class.java) ?: Profil()

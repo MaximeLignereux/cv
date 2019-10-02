@@ -29,6 +29,8 @@ class ContactFragment : DaggerFragment(), ActivityCompat.OnRequestPermissionsRes
 
     @Inject
     lateinit var imageLoader: ImageLoader
+    @Inject
+    lateinit var database: DatabaseReference
 
     private var isFabOpen: Boolean = false
     private lateinit var fab: FloatingActionButton
@@ -41,15 +43,7 @@ class ContactFragment : DaggerFragment(), ActivityCompat.OnRequestPermissionsRes
     private lateinit var emailTv: TextView
     private lateinit var callTv: TextView
 
-    private lateinit var database: DatabaseReference
-    private lateinit var reference: String
-
     private lateinit var callNumber: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        database = FirebaseDatabase.getInstance().reference
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_contact, container, false)
@@ -80,9 +74,7 @@ class ContactFragment : DaggerFragment(), ActivityCompat.OnRequestPermissionsRes
         val viadeoImageView = view.findViewById(R.id.iv_contact_viadeo) as ImageView
         val linkedinImageView = view.findViewById(R.id.iv_contact_linkedin) as ImageView
 
-        reference = getString(R.string.contact_bundle)
-
-        database.child(reference).addValueEventListener(object : ValueEventListener {
+        database.child(getString(R.string.contact_bundle)).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 val contact = dataSnapshot.getValue(Contact::class.java) ?: Contact()

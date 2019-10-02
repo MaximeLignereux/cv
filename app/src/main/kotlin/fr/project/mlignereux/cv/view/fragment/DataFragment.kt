@@ -23,34 +23,28 @@ class DataFragment : DaggerFragment() {
 
     @Inject
     lateinit var imageLoader: ImageLoader
-
-    private var database: DatabaseReference? = null
+    @Inject
+    lateinit var database: DatabaseReference
 
     private lateinit var adapter: FirebaseRecyclerAdapter<Data, DataViewHolder>
     private lateinit var recycler: RecyclerView
     private lateinit var linearLayoutManager: LinearLayoutManager
 
-    private val reference: String?
-        get() = arguments?.getString("REFERENCE")
+    private val reference: String
+        get() = arguments?.getString("REFERENCE") ?: ""
 
-    private val title: String?
-        get() = arguments?.getString("TITLE")
+    private val title: String
+        get() = arguments?.getString("TITLE") ?: ""
 
-    private val subtitle: String?
-        get() = arguments?.getString("SUBTITLE")
+    private val subtitle: String
+        get() = arguments?.getString("SUBTITLE") ?: ""
 
-    private val description: String?
-        get() = arguments?.getString("DESCRIPTION")
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        database = FirebaseDatabase.getInstance().reference
-    }
+    private val description: String
+        get() = arguments?.getString("DESCRIPTION") ?: ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         val view = inflater.inflate(R.layout.fragment_data_list, container, false)
-
         (activity as AppCompatActivity).supportActionBar?.title = title
         recycler = view.findViewById(R.id.list) as RecyclerView
         return view
@@ -61,9 +55,7 @@ class DataFragment : DaggerFragment() {
 
         linearLayoutManager = LinearLayoutManager(requireContext())
 
-        val dataQuery = reference?.let { database?.child(it)?.orderByKey() }
-        dataQuery?.keepSynced(true)
-
+        val dataQuery = database.child(reference).orderByKey().apply { keepSynced(true) }
         adapter = object : FirebaseRecyclerAdapter<Data, DataViewHolder>(Data::class.java, R.layout.fragment_data, DataViewHolder::class.java, dataQuery) {
 
             override fun populateViewHolder(viewHolder: DataViewHolder, model: Data, position: Int) {
@@ -80,7 +72,6 @@ class DataFragment : DaggerFragment() {
         }
 
         adapter.notifyDataSetChanged()
-
         recycler.layoutManager = linearLayoutManager
         recycler.adapter = adapter
     }
