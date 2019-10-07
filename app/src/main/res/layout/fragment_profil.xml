@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="fr.project.mlignereux.cv.view.fragment.ProfilFragment">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -33,10 +33,37 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:background="@color/colorPrimaryDark"/>
+                        android:background="@color/colorPrimaryDark" />
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/profil_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:layout_marginBottom="50dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/profil_job"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:layout_marginBottom="25dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:src="@drawable/ic_message"
+                    app:fabCustomSize="75dp"
+                    app:fabSize="auto"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/civ_image_profil"
@@ -47,33 +74,7 @@
                     app:civ_border_color="@color/colorPrimaryDark"
                     app:civ_border_width="3dp" />
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab_contact"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:layout_gravity="center_vertical|end"
-                    android:layout_margin="@dimen/fab_margin"
-                    android:src="@drawable/ic_message" />
-
-                <TextView
-                    android:id="@+id/profil_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_marginBottom="50dp"
-                    android:textColor="@android:color/white"
-                    android:layout_gravity="bottom|center"/>
-
-                <TextView
-                    android:id="@+id/profil_job"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_marginBottom="25dp"
-                    android:textColor="@android:color/white"
-                    android:layout_gravity="bottom|center"/>
-
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/tv_description_profil"
@@ -82,6 +83,5 @@
                 android:layout_margin="@dimen/text_margin" />
 
         </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-</android.support.design.widget.CoordinatorLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
