@@ -13,12 +13,10 @@ import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
 import fr.project.mlignereux.R
 import fr.project.mlignereux.base.ui.base.BaseActivity
+import fr.project.mlignereux.base.util.exception.ExceptionLogger
 import fr.project.mlignereux.cv.model.Profil
 import fr.project.mlignereux.cv.view.ImageLoader
-import fr.project.mlignereux.cv.view.fragment.ContactFragment
-import fr.project.mlignereux.cv.view.fragment.DataFragment
-import fr.project.mlignereux.cv.view.fragment.ProfilFragment
-import fr.project.mlignereux.cv.view.fragment.SkillFragment
+import fr.project.mlignereux.cv.view.fragment.*
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -27,6 +25,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     lateinit var imageLoader: ImageLoader
     @Inject
     lateinit var database: DatabaseReference
+    @Inject
+    lateinit var exceptionLogger: ExceptionLogger
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 imageLoader.loadImage(profil.photoUrl, circleImageView)
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
+            override fun onCancelled(databaseError: DatabaseError) {
+                exceptionLogger.logException(databaseError.toException())
+            }
         })
 
     }
@@ -85,6 +87,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_skill -> SkillFragment()
             R.id.nav_hobbie -> DataFragment.newInstance(getString(R.string.hobbies_bundle), getString(R.string.hobbies_title), "", "")
             R.id.nav_contact -> ContactFragment()
+            R.id.nav_privacy_policy -> PrivacyPolicyFragment()
             else -> ProfilFragment()
         }
 

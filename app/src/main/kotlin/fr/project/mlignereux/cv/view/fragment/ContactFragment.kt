@@ -21,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.*
 import dagger.android.support.DaggerFragment
 import fr.project.mlignereux.R
+import fr.project.mlignereux.base.util.exception.ExceptionLogger
 import fr.project.mlignereux.cv.model.Contact
 import fr.project.mlignereux.cv.view.ImageLoader
 import javax.inject.Inject
@@ -31,6 +32,8 @@ class ContactFragment : DaggerFragment(), ActivityCompat.OnRequestPermissionsRes
     lateinit var imageLoader: ImageLoader
     @Inject
     lateinit var database: DatabaseReference
+    @Inject
+    lateinit var exceptionLogger: ExceptionLogger
 
     private var isFabOpen: Boolean = false
     private lateinit var fab: FloatingActionButton
@@ -97,7 +100,9 @@ class ContactFragment : DaggerFragment(), ActivityCompat.OnRequestPermissionsRes
                 sendMail(contact.email)
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
+            override fun onCancelled(databaseError: DatabaseError) {
+                exceptionLogger.logException(databaseError.toException())
+            }
         })
         return view
     }

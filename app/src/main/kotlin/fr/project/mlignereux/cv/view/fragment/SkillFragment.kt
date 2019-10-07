@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import dagger.android.support.DaggerFragment
 import fr.project.mlignereux.R
+import fr.project.mlignereux.base.util.exception.ExceptionLogger
 import fr.project.mlignereux.cv.model.Skill
 import fr.project.mlignereux.cv.view.CustomExpandableListAdapter
 import java.util.*
@@ -22,6 +23,8 @@ class SkillFragment : DaggerFragment() {
 
     @Inject
     lateinit var databaseReference: DatabaseReference
+    @Inject
+    lateinit var exceptionLogger: ExceptionLogger
 
     lateinit var expandableListView: ExpandableListView
     lateinit var expandableListAdapter: ExpandableListAdapter
@@ -50,7 +53,9 @@ class SkillFragment : DaggerFragment() {
 
             override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
 
-            override fun onCancelled(databaseError: DatabaseError) {}
+            override fun onCancelled(databaseError: DatabaseError) {
+                exceptionLogger.logException(databaseError.toException())
+            }
         })
         return view
     }

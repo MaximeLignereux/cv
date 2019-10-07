@@ -12,6 +12,7 @@ import com.google.firebase.database.*
 import dagger.android.support.DaggerFragment
 import de.hdodenhof.circleimageview.CircleImageView
 import fr.project.mlignereux.R
+import fr.project.mlignereux.base.util.exception.ExceptionLogger
 import fr.project.mlignereux.cv.model.Profil
 import fr.project.mlignereux.cv.view.ImageLoader
 import javax.inject.Inject
@@ -22,6 +23,8 @@ class ProfilFragment : DaggerFragment() {
     lateinit var imageLoader: ImageLoader
     @Inject
     lateinit var databaseReference: DatabaseReference
+    @Inject
+    lateinit var exceptionLogger: ExceptionLogger
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_profil, container, false)
@@ -45,7 +48,9 @@ class ProfilFragment : DaggerFragment() {
                 descriptionTextView.text = profil.description
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
+            override fun onCancelled(databaseError: DatabaseError) {
+                exceptionLogger.logException(databaseError.toException())
+            }
         })
         contactFab.setOnClickListener {
             fragmentManager?.beginTransaction()?.replace(R.id.content_main, ContactFragment())?.commit()

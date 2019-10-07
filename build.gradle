@@ -44,7 +44,6 @@ ext {
     firebase_ui_version = '2.1.0'
 
     crashlytics_version = '2.10.1'
-    remote_config_version = '18.0.0'
 
     circle_imageview_version = "3.0.1"
     glide_version = '4.9.0'
